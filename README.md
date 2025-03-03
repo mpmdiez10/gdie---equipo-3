@@ -4,3 +4,9 @@ Trabajo de la asigantura GDIE para la Universitat de les Illes Balears (UIB), cu
 # Autores
 Iván Pérez García
 Matías Ponseti Martorell
+
+# TODO: Crear el VTT
+# TODO: Insertar los videos
+# TODO: Insertar el VTT para los videos
+# TODO: Añadir la funcionalidad de las partituras
+# TODO: Añadir la funcionalidad de las recomendaciones
