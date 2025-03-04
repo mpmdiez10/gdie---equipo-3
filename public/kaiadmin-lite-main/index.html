@@ -93,24 +93,64 @@
 
       <div class="main-panel">
         <div class="container">
-          <div class="page-inner">
-            <div
-              class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
-            >
-              <div>
-                <h3 class="fw-bold mb-3">Dashboard</h3>
-                <h6 class="op-7 mb-2">Free Bootstrap 5 Admin Dashboard</h6>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="page-inner">
+                  <div class="video-container">
+                    <video id="videoPlayer" controls width="100%">
+                      <source src="/img/video1.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                    </video>
+                    <div class="video-selector">
+                      <button class="btn btn-primary" onclick="changeVideo('/img/video1.mp4')">John Lennon - Let it be</button>
+                      <button class="btn btn-primary" onclick="changeVideo('/img/video2.mp4')">Coldplay - The Scientist</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <div class="col-md-6">
+              <div class="page-inner">
+                <div class="content-container">
+                  <h2>Right Side Content</h2>
+                  <p>This is where you can add additional content.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-6">
+              <div class="page-inner">
+                <div class="image-container">
+                  <h2>Piano Keys</h2>
+                  <p>This is where you add the piano.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="page-inner">
+                <div class="music-info-container">
+                  <h2>Music Information</h2>
+                  <p>Details about the music being played.</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
+        <script>
+          function changeVideo(src) {
+            const videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.src = src;
+            videoPlayer.load();
+            videoPlayer.play();
+          }
+        </script>
+      
         <footer class="footer">
-            <div class="container-fluid d-flex justify-content-center">
+          <div class="container-fluid d-flex justify-content-center">
             <div class="copyright">
-                &copy; 2025 Piano Listener. All rights reserved.
+              &copy; 2025 Piano Listener. All rights reserved.
             </div>
-            </div>
+          </div>
         </footer>
       </div>
     <!--   Core JS Files   -->
