@@ -1,3 +1,9 @@
+:root {
+  --container-bg-color: #cdc;
+  --container-border-radius: 10px;
+  --container-padding: 10px;
+}
+
 body {
     background-color: #fff;
     font-size: 16px;
@@ -5,53 +11,27 @@ body {
 
 main {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    margin-left: 200px;
+    margin-top: 30px;
+    margin-right: 20px;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 3fr 2fr;
 }
 
 .container {
+    max-height: 500px;
     background-color: #cdc;
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
 }
 
-/*/  Estilos piano //TODO: A retirar  /*/
-/* #piano {
-    position: relative;
-    width: 350px;
-    height: 150px;
-    display: flex;
-  }
-  
-  .white-key {
-    width: 50px;
-    height: 150px;
-    background: white;
-    border: 1px solid black;
-    position: relative;
-  }
+.container-sheets {
+  width: auto;
+  overflow: auto;
+}
 
-  .white-key:hover {
-    background: lightblue;
-  }
-  
-  .black-key {
-    width: 30px;
-    height: 90px;
-    background: black;
-    position: absolute;
-    z-index: 100;
-  }
-
-  .black-key:hover {
-    background: lightblue;
-  }
-  
-  #C\# { left: 35px; }
-  #D\# { left: 85px; }
-  #F\# { left: 185px; }
-  #G\# { left: 235px; }
-  #A\# { left: 285px; }
-   */
-/*/ --- /*/
+.container-sheets scribe-music:hover {
+  color: blue;
+  background-color: #fff;
+}

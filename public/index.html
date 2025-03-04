@@ -9,33 +9,32 @@
     <title>Práctica GDIE - Equipo 3</title>
 
     <script src="js/web_components/piano-component.js" defer></script>
+    
+    <!-- Scribe music -->
+    <script title="load">
+        document.documentElement.className += ' js loading';
+        window.addEventListener('load', () => window.requestAnimationFrame(() => document.documentElement.classList.remove('loading')));
+        window.DEBUG = true;
+    </script>
+
+    <!-- Import <scribe-music> -->
+    <link rel="stylesheet" href="https://stephen.band/scribe/scribe-music/module.css" />
+    <script type="module" src="https://stephen.band/scribe/scribe-music/module.js"></script>
 </head>
 <body>
-    <header></header>
-    <aside></aside>
     <main>
         <div class="container container-video"></div>
-        <div class="container container-sheets"></div>
+        <div class="container container-sheets">
+            <button onclick="cargarSheets()">Btn</button>
+        </div>
         <div class="container container-piano">
-            <!-- <div id="piano"> //TODO: A retirar
-                <div id="C" class="white-key"></div>
-                <div id="C#" class="black-key"></div>
-                <div id="D" class="white-key"></div>
-                <div id="D#" class="black-key"></div>
-                <div id="E" class="white-key"></div>
-                <div id="F" class="white-key"></div>
-                <div id="F#" class="black-key"></div>
-                <div id="G" class="white-key"></div>
-                <div id="G#" class="black-key"></div>
-                <div id="A" class="white-key"></div>
-                <div id="A#" class="black-key"></div>
-                <div id="B" class="white-key"></div>
-            </div>               -->
             <piano-component notes="C,E,G,C#"></piano-component>
+            <button onclick="random()">Random</button>
         </div>
         <div class="container container-recomendations"></div>
     </main>
-    <footer></footer>
+    <script src="js/libraries/jquery-3.7.1.min.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/sheets.js"></script>
 </body>
 </html>

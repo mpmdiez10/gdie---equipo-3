@@ -38,22 +38,23 @@ class PianoComponent extends HTMLElement {
         <style>
           #piano {
             position: relative;
-            width: 350px;
-            height: 150px;
+            margin: 0 auto;
+            width: 700px; /* Double the width */
+            height: 300px; /* Double the height */
             display: flex;
             border: 2px solid black;
           }
           .white-key {
-            width: 50px;
-            height: 150px;
+            width: 100px; /* Double the width */
+            height: 300px; /* Double the height */
             background: white;
-            border: 1px solid black;
+            border: 2px solid black;
             position: relative;
           }
           .black-key {
+            width: 60px; /* Double the width */
+            height: 180px; /* Double the height */
             border: 2px solid black;
-            width: 30px;
-            height: 90px;
             background: black;
             position: absolute;
             z-index: 100;
@@ -61,11 +62,11 @@ class PianoComponent extends HTMLElement {
           .highlight {
             background: lightblue !important;
           }
-          #C\\# { left: 35px; }
-          #D\\# { left: 85px; }
-          #F\\# { left: 185px; }
-          #G\\# { left: 235px; }
-          #A\\# { left: 285px; }
+          #C\\# { left: 70px; } /* Double the left position */
+          #D\\# { left: 170px; } /* Double the left position */
+          #F\\# { left: 370px; } /* Double the left position */
+          #G\\# { left: 470px; } /* Double the left position */
+          #A\\# { left: 570px; } /* Double the left position */
         </style>
         <div id="piano">
           ${keys
