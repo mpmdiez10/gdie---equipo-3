@@ -8,6 +8,11 @@ class PianoComponent extends HTMLElement {
       this.render();
     }
   
+    set subject(value) {
+      this._subject = value;
+      this._subject.subscribe(data => console.log('Mensaje recibido por subject:', data));
+    }
+
     static get observedAttributes() {
       return ["notes"];
     }
