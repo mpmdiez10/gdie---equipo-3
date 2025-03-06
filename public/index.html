@@ -8,7 +8,11 @@
 
     <title>Práctica GDIE - Equipo 3</title>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.5.6/rxjs.umd.min.js"></script>
+    <script src="js/event-bus.js" type="module"></script>
+    <!-- <script src="js/read-keys.js" defer></script> -->
     <script src="js/web_components/piano-component.js" defer></script>
+    <script src="js/web_components/video-component.js" defer></script>    
     
     <!-- Scribe music -->
     <script title="load">
@@ -23,7 +27,9 @@
 </head>
 <body>
     <main>
-        <div class="container container-video"></div>
+        <div class="container container-video">
+            <video-component src="media/video/vid.mp4"></video-component>
+        </div>
         <div class="container container-sheets">
             <button onclick="cargarSheets()">Btn</button>
         </div>
