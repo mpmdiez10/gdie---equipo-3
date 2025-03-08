@@ -18,6 +18,7 @@ class PianoComponent extends HTMLElement {
             if (Array.isArray(data)) {
                 notes = data;
             } else {
+                if (data.type === 'keysFileLoaded') return;
                 console.error('Invalid data structure:', data);
             }
           } catch (error) {
