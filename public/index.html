@@ -9,7 +9,7 @@
     />
     <link
       rel="icon"
-      href="assets/img/logo_piano.svg"
+      href="assets/media/img/logo_piano.svg"
       type="image/x-icon"
     />
 
@@ -50,7 +50,7 @@
           <div class="logo-header" data-background-color="dark">
             <a href="index.html" class="logo">
               <img
-              src="assets/img/logo_piano_texto.svg"
+              src="assets/media/img/logo_piano_texto.svg"
               alt="navbar brand"
               class="navbar-brand"
               height="150"
@@ -98,12 +98,15 @@
               <div class="page-inner">
                   <div class="video-container">
                     <video id="videoPlayer" controls width="100%">
-                      <source src="https://uibes-my.sharepoint.com/personal/ipg368_id_uib_eu/_layouts/15/download.aspx?UniqueId=8049961b-44c6-492e-92b4-fa1955aeb034" type="video/mp4">
-                      Your browser does not support the video tag.
+                      <source src="assets/media/videos/scientist_4k.mp4" type="video/mp4" media="(min-width: 2560px)">
+                      <source src="assets/media/videos/scientist_1080.mp4" type="video/mp4" media="(min-width: 1280px)">
+                      <source src="assets/media/videos/scientist_720.mp4" type="video/mp4" media="(min-width: 720px)">
+                      <source src="assets/media/videos/scientist_480.mp4" type="video/mp4">
+                      Tu navegador no soporta el video.
                     </video>
                     <div class="video-selector">
-                      <button class="btn btn-primary" onclick="changeVideo('https://uibes-my.sharepoint.com/personal/ipg368_id_uib_eu/_layouts/15/download.aspx?UniqueId=d2aaf27f-5c5d-4586-a64a-b74a1bb9afcd')">John Lennon - Imagine</button>
-                      <button class="btn btn-primary" onclick="changeVideo('https://uibes-my.sharepoint.com/personal/ipg368_id_uib_eu/_layouts/15/download.aspx?UniqueId=8049961b-44c6-492e-92b4-fa1955aeb034')">Coldplay - The Scientist</button>
+                      <button class="btn btn-primary" onclick="changeVideo('assets/media/videos/imagine_4k.mp4')">John Lennon - Imagine</button>
+                      <button class="btn btn-primary" onclick="changeVideo('assets/media/videos/scientist_4k.mp4')">Coldplay - The Scientist</button>
                     </div>
                   </div>
                 </div>
