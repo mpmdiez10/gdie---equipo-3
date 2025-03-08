@@ -67,6 +67,9 @@ class VideoComponent extends HTMLElement {
             <style>
                 video {
                     border: 1px solid black;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
                 }
             </style>
             <video controls width="640" height="360">
