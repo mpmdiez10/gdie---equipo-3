@@ -12,7 +12,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vtt.js/0.13.0/vtt.min.js"></script>
     <script src="js/event-bus.js" type="module"></script>
     <script src="js/web_components/piano-component.js" defer></script>
-    <script src="js/web_components/video-component.js" defer></script>    
+    <script src="js/web_components/video-component.js" defer></script>
+    <script src="js/web_components/sheet-component.js" defer></script>    
     
     <!-- Scribe music -->
     <script title="load">
@@ -31,7 +32,7 @@
             <video-component src="media/video/vid.mp4"></video-component>
         </div>
         <div class="container container-sheets">
-            <button onclick="cargarSheets()">Btn</button>
+            <sheet-component></sheet-component>
         </div>
         <div class="container container-piano">
             <piano-component notes=""></piano-component>
