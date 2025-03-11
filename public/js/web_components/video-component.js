@@ -94,12 +94,13 @@ class VideoComponent extends HTMLElement {
         `;
 
         const video = shadow.querySelector('video');
-        const video2 = shadow.querySelector('video track');
-        const track = video2.track;
-        if (track) {
-            track.mode = 'hidden';
-            track.addEventListener('cuechange', () => {
-                const data = JSON.parse(track.activeCues[0].text);
+        const tracks = shadow.querySelectorAll('track')
+        const sheetsTrack = tracks[0].track;
+        
+        if (sheetsTrack) {
+            sheetsTrack.mode = 'hidden';
+            sheetsTrack.addEventListener('cuechange', () => {
+                const data = JSON.parse(sheetsTrack.activeCues[0].text);
                 if (data) this.updateSheetNotes(data);
             });
         }
