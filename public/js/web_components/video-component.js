@@ -96,7 +96,8 @@ class VideoComponent extends HTMLElement {
         const video = shadow.querySelector('video');
         const tracks = shadow.querySelectorAll('track')
         const sheetsTrack = tracks[0].track;
-        
+        const keysTrack = tracks[1].track;
+
         if (sheetsTrack) {
             sheetsTrack.mode = 'hidden';
             sheetsTrack.addEventListener('cuechange', () => {
@@ -104,25 +105,33 @@ class VideoComponent extends HTMLElement {
                 if (data) this.updateSheetNotes(data);
             });
         }
-        video.addEventListener('timeupdate', () => {
-            this.updateKeyNotes(video.currentTime);
-        });
+        if (keysTrack) {
+            keysTrack.mode = 'hidden';
+            keysTrack.addEventListener('cuechange', () => {
+                const data = JSON.parse(keysTrack.activeCues[0].text);
+                if (data) this.updateKeyNotes(data);
+            });
+        }
+        // video.addEventListener('timeupdate', () => {
+        //     this.updateKeyNotes(video.currentTime);
+        // });
     }
 
-    updateKeyNotes(currentTime) {
-        const cue = this.cues.find(cue => cue.startTime <= currentTime && cue.endTime >= currentTime);
-        if (cue) {
-            try {
-                const data = JSON.parse(cue.text.replace(';', ''));
-                if (data && data.keys) {
-                    this._subjectPiano.next(data.keys);
-                } else {
-                    console.error('Invalid data structure:', data);
-                }
-            } catch (error) {
-                console.error('Error parsing cue text:', error);
-            }
-        }
+    updateKeyNotes(data) {
+        // const cue = this.cues.find(cue => cue.startTime <= currentTime && cue.endTime >= currentTime);
+        // if (cue) {
+        //     try {
+        //         const data = JSON.parse(cue.text.replace(';', ''));
+        //         if (data && data.keys) {
+        //             this._subjectPiano.next(data.keys);
+        //         } else {
+        //             console.error('Invalid data structure:', data);
+        //         }
+        //     } catch (error) {
+        //         console.error('Error parsing cue text:', error);
+        //     }
+        // }
+        this._subjectPiano.next(data);
     }
 
     updateSheetNotes(data) {
