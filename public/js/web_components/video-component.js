@@ -15,7 +15,6 @@ class VideoComponent extends HTMLElement {
     connectedCallback() {
         this.render();
         this.subscribeToEvents();
-        this.readKeysFile();
     }
 
     set subjectPiano(value) {
@@ -52,27 +51,6 @@ class VideoComponent extends HTMLElement {
                 this.sheetCues = event.data;
             }
         });
-    }
-
-    async readKeysFile() {
-        const response = await fetch('/vtt/keys.vtt');
-        if (!response.ok) {
-            console.error('Failed to load keys.vtt file');
-            return;
-        }
-        const text = await response.text();
-        const parser = new WebVTT.Parser(window, WebVTT.StringDecoder());
-        const cues = [];
-
-        parser.oncue = function (cue) {
-            cues.push(cue);
-        };
-
-        parser.parse(text);
-        parser.flush();
-
-        const subjectPiano = await this._subjectPianoPromise;
-        subjectPiano.next({ type: 'keysFileLoaded', data: cues });
     }
 
     render() {
@@ -112,25 +90,9 @@ class VideoComponent extends HTMLElement {
                 if (data) this.updateKeyNotes(data);
             });
         }
-        // video.addEventListener('timeupdate', () => {
-        //     this.updateKeyNotes(video.currentTime);
-        // });
     }
 
     updateKeyNotes(data) {
-        // const cue = this.cues.find(cue => cue.startTime <= currentTime && cue.endTime >= currentTime);
-        // if (cue) {
-        //     try {
-        //         const data = JSON.parse(cue.text.replace(';', ''));
-        //         if (data && data.keys) {
-        //             this._subjectPiano.next(data.keys);
-        //         } else {
-        //             console.error('Invalid data structure:', data);
-        //         }
-        //     } catch (error) {
-        //         console.error('Error parsing cue text:', error);
-        //     }
-        // }
         this._subjectPiano.next(data);
     }
 
