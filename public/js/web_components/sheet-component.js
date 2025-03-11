@@ -3,7 +3,7 @@ class SheetComponent extends HTMLElement {
         super();
         this.attachShadow({ mode: "open" });
         this._subject = null;
-        this._hola = null;
+        this.musicSheets = []; // Maintain a list of music sheets
     }
 
     connectedCallback() {
@@ -13,37 +13,22 @@ class SheetComponent extends HTMLElement {
     set subject(value) {
         this._subject = value;
         this._subject.subscribe(data => {
-            console.log('Received data:', data);
             this.addScribeMusic(data);
+            this.render(); // Re-render the component
         });
     }
 
     addScribeMusic(data) {
-        console.log('Adding scribe music:', data);
+        let partituraParseada = '';
+        if (!data.keys) return;
+        // Iterate over the notes in the sheet music
+        data.keys.map((key) => {
+            partituraParseada += `0 ${key} 0.2 ${data.duration.toString()} \n`;
+        });
 
-        const scribeMusic = document.createElement('scribe-music');
-        // const scribeMusic = document.createElement('div');
-        scribeMusic.setAttribute('type', 'sequence');
+        // Add the parsed music sheet to the list
+        this.musicSheets.push(partituraParseada);
 
-        // Parsear el contenido de la partitura
-        let parsedData, partituraParseada = "";
-        try {
-            parsedData = JSON.parse(data.data[0].text);
-            console.log('Parsed data:', parsedData);
-
-            // Recorrer las notas de la partitura
-            parsedData.keys.forEach((key) => {
-                partituraParseada += "\n0 " + key + " 0.2 " + parsedData.duration.toString() ;
-                console.log('partituraParseada:', partituraParseada);
-            });
-
-            scribeMusic.innerHTML = partituraParseada;
-        } catch (error) {
-            console.error('Error parsing JSON:', error);
-            scribeMusic.innerHTML = 'Error parsing music data';
-        }
-        
-        this.shadowRoot.querySelector('#container_music_sheet').appendChild(scribeMusic);
     }
 
     render() {
@@ -55,7 +40,11 @@ class SheetComponent extends HTMLElement {
                     gap: 10px;
                 }
             </style>
-            <div id="container_music_sheet"></div>
+            <div id="container_music_sheet">
+                ${this.musicSheets.map(sheet => `
+                    <scribe-music type="sequence">${sheet}</scribe-music>
+                `).join('')}
+            </div>
         `;
     }
 }

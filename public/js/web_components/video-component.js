@@ -16,19 +16,16 @@ class VideoComponent extends HTMLElement {
         this.render();
         this.subscribeToEvents();
         this.readKeysFile();
-        this.readSheetsFile();
     }
 
     set subjectPiano(value) {
         this._subjectPiano = value;
         this._resolveSubjectPiano(value);
-        this._subjectPiano.next('Hola buenas');
     }
 
     set subjectSheets(value) {
         this._subjectSheets = value;
         this._resolveSubjectSheets(value);
-        this._subjectSheets.next('Hola buenas');
     }
 
     static get observedAttributes() {
@@ -67,7 +64,7 @@ class VideoComponent extends HTMLElement {
         const parser = new WebVTT.Parser(window, WebVTT.StringDecoder());
         const cues = [];
 
-        parser.oncue = function(cue) {
+        parser.oncue = function (cue) {
             cues.push(cue);
         };
 
@@ -76,27 +73,6 @@ class VideoComponent extends HTMLElement {
 
         const subjectPiano = await this._subjectPianoPromise;
         subjectPiano.next({ type: 'keysFileLoaded', data: cues });
-    }
-
-    async readSheetsFile() {
-        const response = await fetch('/vtt/sheets.vtt');
-        if (!response.ok) {
-            console.error('Failed to load sheets.vtt file');
-            return;
-        }
-        const text = await response.text();
-        const parser = new WebVTT.Parser(window, WebVTT.StringDecoder());
-        const cues = [];
-
-        parser.oncue = function(cue) {
-            cues.push(cue);
-        };
-
-        parser.parse(text);
-        parser.flush();
-
-        const subjectSheets = await this._subjectSheetsPromise;
-        subjectSheets.next({ type: 'sheetsFileLoaded', data: cues });
     }
 
     render() {
@@ -112,15 +88,23 @@ class VideoComponent extends HTMLElement {
             </style>
             <video controls width="640" height="360">
                 <source src="${this.getAttribute('src')}" type="video/mp4">
-                <track id="keysTrack" kind="metadata" label="Keys" src="keys.vtt">
-                <track id="sheetsTrack" kind="metadata" label="Sheets" src="sheets.vtt">
+                <track id="sheetsTrack" kind="metadata" label="Sheets" src="../vtt/sheets.vtt">
+                <track id="keysTrack" kind="metadata" label="Keys" src="../vtt/keys.vtt">
             </video>
         `;
 
         const video = shadow.querySelector('video');
+        const video2 = shadow.querySelector('video track');
+        const track = video2.track;
+        if (track) {
+            track.mode = 'hidden';
+            track.addEventListener('cuechange', () => {
+                const data = JSON.parse(track.activeCues[0].text);
+                if (data) this.updateSheetNotes(data);
+            });
+        }
         video.addEventListener('timeupdate', () => {
             this.updateKeyNotes(video.currentTime);
-            this.updateSheetNotes(video.currentTime);
         });
     }
 
@@ -140,20 +124,8 @@ class VideoComponent extends HTMLElement {
         }
     }
 
-    updateSheetNotes(currentTime) {
-        const cue = this.sheetCues.find(cue => cue.startTime <= currentTime && cue.endTime >= currentTime);
-        if (cue) {
-            try {
-                const data = JSON.parse(cue.text.replace(/;/g, ','));
-                if (data && data.sequence) {
-                    this._subjectSheets.next(data.sequence);
-                } else {
-                    console.error('Invalid data structure:', data);
-                }
-            } catch (error) {
-                console.error('Error parsing cue text:', error);
-            }
-        }
+    updateSheetNotes(data) {
+        this._subjectSheets.next(data);
     }
 }
 
