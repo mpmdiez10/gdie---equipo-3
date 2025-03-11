@@ -8,5 +8,4 @@ Matías Ponseti Martorell
 # TODO: Crear el VTT
 # TODO: Insertar los videos
 # TODO: Insertar el VTT para los videos
-# TODO: Añadir la funcionalidad de las partituras
 # TODO: Añadir la funcionalidad de las recomendaciones
