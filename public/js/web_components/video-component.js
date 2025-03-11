@@ -68,13 +68,14 @@ class VideoComponent extends HTMLElement {
                 <source src="${this.getAttribute('src')}" type="video/mp4">
                 <track id="sheetsTrack" kind="metadata" label="Sheets" src="../vtt/sheets.vtt">
                 <track id="keysTrack" kind="metadata" label="Keys" src="../vtt/keys.vtt">
+                <track id="recommendationsTrack" kind="metadata" label="Recommendations" src="../vtt/recommendations.vtt">
             </video>
         `;
 
-        const video = shadow.querySelector('video');
         const tracks = shadow.querySelectorAll('track')
         const sheetsTrack = tracks[0].track;
         const keysTrack = tracks[1].track;
+        const recommendationsTrack = tracks[2].track;
 
         if (sheetsTrack) {
             sheetsTrack.mode = 'hidden';
