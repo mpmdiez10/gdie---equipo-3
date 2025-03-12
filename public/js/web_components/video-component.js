@@ -10,6 +10,9 @@ class VideoComponent extends HTMLElement {
         this._subjectSheetsPromise = new Promise(resolve => {
             this._resolveSubjectSheets = resolve;
         });
+        this._subjectRecommendationsPromise = new Promise(resolve => {
+            this._resolveSubjectRecommendations = resolve;
+        });
     }
 
     connectedCallback() {
@@ -25,6 +28,11 @@ class VideoComponent extends HTMLElement {
     set subjectSheets(value) {
         this._subjectSheets = value;
         this._resolveSubjectSheets(value);
+    }
+
+    set subjectRecommendations(value) {
+        this._subjectRecommendations = value;
+        this._resolveSubjectRecommendations(value);
     }
 
     static get observedAttributes() {
@@ -49,6 +57,13 @@ class VideoComponent extends HTMLElement {
         subjectSheets.subscribe(event => {
             if (event.type === 'sheetsFileLoaded') {
                 this.sheetCues = event.data;
+            }
+        });
+
+        const subjectRecommendations = await this._subjectRecommendationsPromise;
+        subjectRecommendations.subscribe(event => {
+            if (event.type === 'recommendationsFileLoaded') {
+                this.recommendations = event.data;
             }
         });
     }
@@ -91,6 +106,13 @@ class VideoComponent extends HTMLElement {
                 if (data) this.updateKeyNotes(data);
             });
         }
+        if (recommendationsTrack) {
+            recommendationsTrack.mode = 'hidden';
+            recommendationsTrack.addEventListener('cuechange', () => {
+                const data = JSON.parse(recommendationsTrack.activeCues[0].text);
+                if (data) this.updateRecommendations(data);
+            });
+        }
     }
 
     updateKeyNotes(data) {
@@ -99,6 +121,10 @@ class VideoComponent extends HTMLElement {
 
     updateSheetNotes(data) {
         this._subjectSheets.next(data);
+    }
+
+    updateRecommendations(data) {
+        this._subjectRecommendations.next(data);
     }
 }
 

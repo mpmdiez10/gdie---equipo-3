@@ -10,7 +10,7 @@ $(function() {
     $('video-component')[0].subjectSheets = eventBus_sheets;
     $('sheet-component')[0].subject = eventBus_sheets;
 
-    $('video-component')[0].recommendationsSheets = eventBus_sheets;
-    $('recommendations-component')[0].recommendationsSheets = eventBus_sheets;
+    $('video-component')[0].subjectRecommendations = eventBus_sheets;
+    $('recommendations-component')[0].subject = eventBus_sheets;
     
 });
