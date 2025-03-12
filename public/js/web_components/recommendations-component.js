@@ -18,12 +18,13 @@ class RecommendationsComponent extends HTMLElement {
         });
     }
 
-    // TODO: Implementar lógica para añadir recomendaciones
+    // TODO: Revisar esto de aquí, tal vez haya que mejorar esta función
     addRecomendationsData(data) {
         this.render(data);
     }
 
-    // TODO: Implementar renderizado de recomendaciones
+    // TODO: Arreglar contenido html para que las recomendaciones se vean mejor
+    // TODO: tratar de mantener aún tras el renderizado que se mantenga el mismo apartado recomendaciones/info
     render(data) {
         if (!data) return;
         if (!data.song_recommendations) return;
