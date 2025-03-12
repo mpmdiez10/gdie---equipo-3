@@ -14,37 +14,77 @@ class RecommendationsComponent extends HTMLElement {
         this._subject = value;
         this._subject.subscribe(data => {
             this.addRecomendationsData(data);
-            this.render(); // Re-render el componente
+            // this.render(data); // Re-render el componente
         });
     }
 
     // TODO: Implementar lógica para añadir recomendaciones
     addRecomendationsData(data) {
-        console.log(data);
-        // Add the new recommendations data to the list
-        this.recommendations.push(data);
+        this.render(data);
     }
 
     // TODO: Implementar renderizado de recomendaciones
-    render() {
+    render(data) {
+        if (!data) return;
+        if (!data.song_recommendations) return;
+        if (!data.song_info) return;
+
         this.shadowRoot.innerHTML = `
             <style>
-                .recommendation {
-                    margin-bottom: 10px;
-                    padding: 10px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                }
+            .recommendation {
+                margin-bottom: 10px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            .lever {
+                cursor: pointer;
+                padding: 5px 10px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                margin-bottom: 10px;
+            }
+            .hidden {
+                display: none;
+            }
             </style>
             <div>
-                <h2>Recommendations</h2>
-                ${this.recommendations.map(rec => `
+            <button class="lever" id="toggleButton">Toggle Info</button>
+            <div id="recommendationContent">
+                <div id="recommendationContent_info">
+                    <h2>Info</h2>
+                    <p>${data.song_info}</p>
+                </div>
+                <div id="recommendationContent_recommendations" class="hidden">
+                    <h2>Recommendations</h2>
                     <div class="recommendation">
-                        <p>${rec}</p>
-                    </div>
-                `).join('')}
+                        ${data.song_recommendations.map(r => `
+                            <img src="../../../media/img/recommendations/${r.img}" alt="${r.title}" style="width: 100px; height: 100px;">
+                            <h3>${r.title}</h3>
+                        `)}
+                    </div>                        
+                </div>
+            </div>
             </div>
         `;
+
+        const toggleButton = this.shadowRoot.getElementById('toggleButton');
+        let showingRecommendations = true;
+
+        toggleButton.addEventListener('click', () => {
+            if (showingRecommendations) {
+                this.shadowRoot.getElementById('recommendationContent_info').classList.add('hidden');
+                this.shadowRoot.getElementById('recommendationContent_recommendations').classList.remove('hidden');
+                toggleButton.textContent = 'Show Recommendations';
+            } else {
+                this.shadowRoot.getElementById('recommendationContent_info').classList.remove('hidden');
+                this.shadowRoot.getElementById('recommendationContent_recommendations').classList.add('hidden');
+                toggleButton.textContent = 'Show Info';
+            }
+            showingRecommendations = !showingRecommendations;
+        });
     }
 }
 
