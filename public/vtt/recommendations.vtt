@@ -2,7 +2,7 @@ WEBVTT
 
 00:00:00.000 --> 00:00:05.000
 {
-    "song-recommendations": [
+    "song_recommendations": [
         {
             "title": "Here comes the sun",
             "img": "here_comes_the_sun.png"
@@ -12,12 +12,12 @@ WEBVTT
             "img": "let_it_be.png"
         }
     ],
-    "song-info": "'Imagine' de John Lennon es una canción lanzada en 1971, conocida por su mensaje de paz y esperanza. Es considerada uno de los himnos más icónicos de la música y ha sido interpretada en momentos clave de la historia mundial."
+    "song_info": "'Imagine' de John Lennon es una canción lanzada en 1971, conocida por su mensaje de paz y esperanza. Es considerada uno de los himnos más icónicos de la música y ha sido interpretada en momentos clave de la historia mundial."
 }
 
 00:00:05.000 --> 00:00:10.000
 {
-    "song-recommendations": [
+    "song_recommendations": [
         {
             "title": "Beautiful boy",
             "img": "beautiful_boy.png"
@@ -27,5 +27,5 @@ WEBVTT
             "img": "hey_jude.png"
         }
     ],
-    "song-info": "La letra invita a imaginar un mundo sin fronteras, religiones ni posesiones materiales, promoviendo la unidad y la paz. Fue inspirada en parte por los poemas de Yoko Ono y sigue siendo una de las canciones más influyentes de la historia."
+    "song_info": "La letra invita a imaginar un mundo sin fronteras, religiones ni posesiones materiales, promoviendo la unidad y la paz. Fue inspirada en parte por los poemas de Yoko Ono y sigue siendo una de las canciones más influyentes de la historia."
 }
