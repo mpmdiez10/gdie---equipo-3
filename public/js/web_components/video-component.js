@@ -146,7 +146,7 @@ class VideoComponent extends HTMLElement {
                 this.setAttribute('song', this.song_playing);
                 this.updateKeyNotes({ keys: [] });
                 this.updateSheetNotes({ compasses: [] });
-                this.updateRecommendations({ song_recommendations: [], song_info: '' }); // FIXME: Esto no está funcionando correctamente: las recomendaciones no salen
+                this.updateRecommendations({ song_recommendations: [], song_info: '' });
                 this.render();
             });
         });
@@ -165,7 +165,7 @@ class VideoComponent extends HTMLElement {
     }
 
     updateRecommendations(data) {
-        if (data && data.recommendations) {
+        if (data && data.song_recommendations.length > 0) {
             this._subjectRecommendations.next(data);
         }
     }

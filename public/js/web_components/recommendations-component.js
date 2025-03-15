@@ -24,7 +24,7 @@ class RecommendationsComponent extends HTMLElement {
 
     render(data) {
         if (!data) return;
-        if (!data.song_recommendations) return;
+        if (data.song_recommendations.length === 0) return;
         if (!data.song_info) return;
 
         this.shadowRoot.innerHTML = `
