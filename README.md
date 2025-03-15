@@ -8,3 +8,4 @@ Matías Ponseti Martorell
 # TODO: Crear el VTT
 # TODO: Insertar los videos
 # TODO: Insertar el VTT para los videos
+# TODO: Cuando vuelva a clicar el video, limpiar el sheet-component

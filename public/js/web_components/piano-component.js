@@ -11,10 +11,12 @@ class PianoComponent extends HTMLElement {
     set subject(value) {
       this._subject = value;
       this._subject.subscribe(data => {
-          if (data.keys) {
-            this.setAttribute('notes', data.keys.join(','));
+          if (data.keys.length === 0) {
+            this.setAttribute('notes', '');
+          } else if (!data.keys) {
+            console.error('Invalid data structure:', data);
           } else {
-              console.error('Invalid data structure:', data);
+            this.setAttribute('notes', data.keys.join(','));
           }          
         });
     }

@@ -20,14 +20,21 @@ class SheetComponent extends HTMLElement {
 
     addScribeMusic(data) {
         let partituraParseada = '';
-        if (!data.keys) return;
-        // Iterar sobre las notas de la partitura
-        data.keys.map((key) => {
-            partituraParseada += `0 ${key} 0.2 ${data.duration.toString()} \n`;
-        });
-
-        // Añadir la nueva partitura a la lista
-        this.musicSheets.push(partituraParseada);
+        if (data.compasses.length === 0) {
+            this.musicSheets = [];
+        } else if (!data.compasses) {
+        } else {
+            // Iterar sobre los compases de la partitura
+            let auxPossComp = 0;
+            data.compasses.map((compass) => {
+                compass.keys.map((key) => {
+                    partituraParseada += `${(auxPossComp + compass.duration).toString()} ${key} 0.2 ${compass.duration.toString()} \n`;
+                });
+            });
+    
+            // Añadir la nueva partitura a la lista
+            this.musicSheets.push(partituraParseada);
+        }
     }
 
     render() {

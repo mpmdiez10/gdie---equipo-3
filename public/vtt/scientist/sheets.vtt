@@ -1,0 +1,37 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:05.000
+{
+    "compasses": [
+        {
+            "keys": ["D4", "F4", "G4"],
+            "duration": 7
+        },
+        {
+            "keys": ["C4", "E4", "G4"],
+            "duration": 3
+        },
+        {
+            "keys": ["D4", "F4", "A#4"],
+            "duration": 2
+        }
+    ]
+}
+
+00:00:05.000 --> 00:00:10.000
+{
+    "compasses": [
+        {
+            "keys": ["D4", "F4", "G4"],
+            "duration": 4
+        },
+        {
+            "keys": ["D4", "F4", "G4"],
+            "duration": 3
+        },
+        {
+            "keys": ["D4", "F4", "A#4"],
+            "duration": 2
+        }
+    ]
+}

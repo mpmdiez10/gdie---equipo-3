@@ -4,6 +4,8 @@ class VideoComponent extends HTMLElement {
         this.attachShadow({ mode: "open" });
         this.cues = [];
         this.sheetCues = [];
+        this.song_playing = 'imagine';
+        this.songs = ['imagine', 'scientist'];
         this._subjectPianoPromise = new Promise(resolve => {
             this._resolveSubjectPiano = resolve;
         });
@@ -36,11 +38,11 @@ class VideoComponent extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ["src"];
+        return ["song"];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        if (name === "src") {
+        if (name === "song") {
             this.render();
         }
     }
@@ -74,23 +76,47 @@ class VideoComponent extends HTMLElement {
             <style>
                 video {
                     border: 1px solid black;
-                    width: 100%;
-                    height: 100%;
+                    height: 90%;
+                    width: auto;
+                    margin: 0 auto;
                     object-fit: cover;
+                }
+                .songs_buttons_list {
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 10px;
+                }
+                .song_button {
+                    margin: 0 5px;
+                    padding: 5px 10px;
+                    background-color: #007bff;
+                    color: white;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
                 }
             </style>
             <video controls width="640" height="360">
-                <source src="${this.getAttribute('src')}" type="video/mp4">
-                <track id="sheetsTrack" kind="metadata" label="Sheets" src="../vtt/sheets.vtt">
-                <track id="keysTrack" kind="metadata" label="Keys" src="../vtt/keys.vtt">
-                <track id="recommendationsTrack" kind="metadata" label="Recommendations" src="../vtt/recommendations.vtt">
+                <!-- <source src="media/video/${this.getAttribute('song')}/4k.mp4" type="video/mp4" media="(min-width: 2560px)"> -->
+                <!-- <source src="media/video/${this.getAttribute('song')}/1080.mp4"" type="video/mp4" media="(min-width: 1280px)"> -->
+                <!-- <source src="media/video/${this.getAttribute('song')}/720.mp4"" type="video/mp4" media="(min-width: 720px)"> -->
+                <source src="media/video/${this.getAttribute('song')}/480.mp4"" type="video/mp4">
+                <track id="sheetsTrack" kind="metadata" label="Sheets" src="vtt/${this.song_playing}/sheets.vtt">
+                <track id="keysTrack" kind="metadata" label="Keys" src="vtt/${this.song_playing}/keys.vtt">
+                <track id="recommendationsTrack" kind="metadata" label="Recommendations" src="vtt/${this.song_playing}/recommendations.vtt">
             </video>
+            <div class="songs_buttons_list">
+                ${this.songs.map(song => `
+                    <button class="song_button" id="btn_${song}" data-song="${song}">${song}</button>
+                `).join('')}
+            </div>
         `;
 
-        const tracks = shadow.querySelectorAll('track')
+        const tracks = shadow.querySelectorAll('track');
         const sheetsTrack = tracks[0].track;
         const keysTrack = tracks[1].track;
         const recommendationsTrack = tracks[2].track;
+        const buttons = shadow.querySelectorAll('.song_button');
 
         if (sheetsTrack) {
             sheetsTrack.mode = 'hidden';
@@ -113,18 +139,35 @@ class VideoComponent extends HTMLElement {
                 if (data) this.updateRecommendations(data);
             });
         }
+        
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                this.song_playing = button.getAttribute('data-song');
+                this.setAttribute('song', this.song_playing);
+                this.updateKeyNotes({ keys: [] });
+                this.updateSheetNotes({ compasses: [] });
+                this.updateRecommendations({ song_recommendations: [], song_info: '' }); // FIXME: Esto no está funcionando correctamente: las recomendaciones no salen
+                this.render();
+            });
+        });
     }
 
     updateKeyNotes(data) {
-        this._subjectPiano.next(data);
+        if (data && data.keys) {
+            this._subjectPiano.next(data);
+        }
     }
 
     updateSheetNotes(data) {
-        this._subjectSheets.next(data);
+        if (data && data.compasses) {
+            this._subjectSheets.next(data);
+        }
     }
 
     updateRecommendations(data) {
-        this._subjectRecommendations.next(data);
+        if (data && data.recommendations) {
+            this._subjectRecommendations.next(data);
+        }
     }
 }
 
