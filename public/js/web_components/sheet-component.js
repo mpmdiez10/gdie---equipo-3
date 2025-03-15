@@ -53,12 +53,6 @@ class SheetComponent extends HTMLElement {
                 `).join('')}
             </div>
         `;
-
-        // Focus on the last element
-        const container = this.shadowRoot.getElementById('container_music_sheet');
-        if (container.lastElementChild) {
-            container.lastElementChild.scrollIntoView({ behavior: 'smooth' });
-        }
     }
 }
 
