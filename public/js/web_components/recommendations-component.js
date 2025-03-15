@@ -3,7 +3,7 @@ class RecommendationsComponent extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this._subject = null;
-        this.recommendations = []; 
+        this._showingRecommendations = true;
     }
 
     connectedCallback() {
@@ -14,7 +14,6 @@ class RecommendationsComponent extends HTMLElement {
         this._subject = value;
         this._subject.subscribe(data => {
             this.addRecomendationsData(data);
-            // this.render(data); // Re-render el componente
         });
     }
 
@@ -23,8 +22,6 @@ class RecommendationsComponent extends HTMLElement {
         this.render(data);
     }
 
-    // TODO: Arreglar contenido html para que las recomendaciones se vean mejor
-    // TODO: tratar de mantener aún tras el renderizado que se mantenga el mismo apartado recomendaciones/info
     render(data) {
         if (!data) return;
         if (!data.song_recommendations) return;
@@ -35,8 +32,13 @@ class RecommendationsComponent extends HTMLElement {
             .recommendation {
                 margin-bottom: 10px;
                 padding: 10px;
-                border: 1px solid #ccc;
                 border-radius: 5px;
+            }
+            .recommendations_list {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                flex-wrap: wrap;
             }
             .lever {
                 cursor: pointer;
@@ -54,37 +56,30 @@ class RecommendationsComponent extends HTMLElement {
             <div>
             <button class="lever" id="toggleButton">Toggle Info</button>
             <div id="recommendationContent">
-                <div id="recommendationContent_info">
+                <div id="recommendationContent_info" class="${this._showingRecommendations ? 'hidden' : ''}">
                     <h2>Info</h2>
                     <p>${data.song_info}</p>
                 </div>
-                <div id="recommendationContent_recommendations" class="hidden">
+                <div id="recommendationContent_recommendations" class="${this._showingRecommendations ? '' : 'hidden'}">
                     <h2>Recommendations</h2>
-                    <div class="recommendation">
+                    <div class="recommendations_list">
                         ${data.song_recommendations.map(r => `
-                            <img src="../../../media/img/recommendations/${r.img}" alt="${r.title}" style="width: 100px; height: 100px;">
-                            <h3>${r.title}</h3>
-                        `)}
-                    </div>                        
+                            <div class="recommendation">
+                                <img src="../../../media/img/recommendations/${r.img}" alt="${r.title}" style="width: 100px; height: 100px;">
+                                <h3>${r.title}</h3>
+                            </div>                        
+                        `).join('')}
+                    </div>
                 </div>
             </div>
             </div>
         `;
 
         const toggleButton = this.shadowRoot.getElementById('toggleButton');
-        let showingRecommendations = true;
 
         toggleButton.addEventListener('click', () => {
-            if (showingRecommendations) {
-                this.shadowRoot.getElementById('recommendationContent_info').classList.add('hidden');
-                this.shadowRoot.getElementById('recommendationContent_recommendations').classList.remove('hidden');
-                toggleButton.textContent = 'Show Recommendations';
-            } else {
-                this.shadowRoot.getElementById('recommendationContent_info').classList.remove('hidden');
-                this.shadowRoot.getElementById('recommendationContent_recommendations').classList.add('hidden');
-                toggleButton.textContent = 'Show Info';
-            }
-            showingRecommendations = !showingRecommendations;
+            this._showingRecommendations = !this._showingRecommendations;
+            this.render(data);
         });
     }
 }
