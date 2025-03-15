@@ -28,8 +28,9 @@ class SheetComponent extends HTMLElement {
             let auxPossComp = 0;
             data.compasses.map((compass) => {
                 compass.keys.map((key) => {
-                    partituraParseada += `${(auxPossComp + compass.duration).toString()} ${key} 0.2 ${compass.duration.toString()} \n`;
+                    partituraParseada += `${(auxPossComp).toString()} ${key} 0.2 ${compass.duration.toString()} \n`;
                 });
+                auxPossComp += compass.duration;
             });
     
             // Añadir la nueva partitura a la lista
@@ -52,6 +53,12 @@ class SheetComponent extends HTMLElement {
                 `).join('')}
             </div>
         `;
+
+        // Focus on the last element
+        const container = this.shadowRoot.getElementById('container_music_sheet');
+        if (container.lastElementChild) {
+            container.lastElementChild.scrollIntoView({ behavior: 'smooth' });
+        }
     }
 }
 
