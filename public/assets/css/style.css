@@ -1,0 +1,43 @@
+:root {
+  --container-bg-color: #cdc;
+  --container-border-radius: 10px;
+  --container-padding: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #fff;
+    font-size: 16px;
+}
+
+main {
+    display: grid;
+    margin-left: 200px;
+    margin-top: 30px;
+    margin-right: 20px;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 3fr 2fr;
+}
+
+.container {
+    max-height: 500px;
+    background-color: #cdc;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.container-sheets {
+  width: auto;
+  overflow: auto;
+}
+
+.container-recommendations {
+  width: auto;
+  overflow: auto;
+}
