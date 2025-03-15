@@ -40,6 +40,10 @@ class RecommendationsComponent extends HTMLElement {
                 justify-content: space-around;
                 flex-wrap: wrap;
             }
+            .song_info {
+                text-align: justify;
+                font-size: 1.4em;
+            }
             .lever {
                 cursor: pointer;
                 padding: 5px 10px;
@@ -52,26 +56,29 @@ class RecommendationsComponent extends HTMLElement {
             .hidden {
                 display: none;
             }
+            h2 {
+                font-size: 1.8em;
+            }
             </style>
             <div>
-            <button class="lever" id="toggleButton">Toggle Info</button>
-            <div id="recommendationContent">
-                <div id="recommendationContent_info" class="${this._showingRecommendations ? 'hidden' : ''}">
-                    <h2>Info</h2>
-                    <p>${data.song_info}</p>
-                </div>
-                <div id="recommendationContent_recommendations" class="${this._showingRecommendations ? '' : 'hidden'}">
-                    <h2>Recommendations</h2>
-                    <div class="recommendations_list">
-                        ${data.song_recommendations.map(r => `
-                            <div class="recommendation">
-                                <img src="../../../media/img/recommendations/${r.img}" alt="${r.title}" style="width: 100px; height: 100px;">
-                                <h3>${r.title}</h3>
-                            </div>                        
-                        `).join('')}
+                <button class="lever" id="toggleButton">Toggle Info</button>
+                <div id="recommendationContent">
+                    <div id="recommendationContent_info" class="${this._showingRecommendations ? 'hidden' : ''}">
+                        <h2>Información de la canción</h2>
+                        <p class="song_info">${data.song_info}</p>
+                    </div>
+                    <div id="recommendationContent_recommendations" class="${this._showingRecommendations ? '' : 'hidden'}">
+                        <h2>Recomendaciones similares</h2>
+                        <div class="recommendations_list">
+                            ${data.song_recommendations.map(r => `
+                                <div class="recommendation">
+                                    <img src="../../../media/img/recommendations/${r.img}" alt="${r.title}" style="width: 100px; height: 100px;">
+                                    <h3>${r.title}</h3>
+                                </div>                        
+                            `).join('')}
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         `;
 
