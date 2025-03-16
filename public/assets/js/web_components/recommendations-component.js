@@ -68,7 +68,7 @@ class RecommendationsComponent extends HTMLElement {
                         <p class="song_info">${data.song_info}</p>
                     </div>
                     <div id="recommendationContent_recommendations" class="${this._showingRecommendations ? '' : 'hidden'}">
-                        <h2>Recomendaciones similares</h2>
+                        <h2>Canciones similares</h2>
                         <div class="recommendations_list">
                             ${data.song_recommendations.map(r => `
                                 <div class="recommendation">

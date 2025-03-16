@@ -57,7 +57,6 @@
     <script src="assets/js/web_components/recommendations-component.js" defer></script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/plugins.min.css" />
     <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
@@ -115,51 +114,69 @@
 
       <div class="main-panel">
         <div class="container">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="page-inner">
-                  <div class="video-container">
-                    <!-- VIDEO PLAYER COMPONENT -->
-                    <video-component song="imagine"></video-component>
-                  </div>
+            <div class="row">
+                <!-- Video Player Card -->
+                <div class="col-md-6">
+                    <div class="card card-round">
+                        <div class="card-header">
+                            <div class="card-title">Reproductor de Video</div>
+                        </div>
+                        <div class="card-body">
+                            <video-component song="imagine"></video-component>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            <div class="col-md-6">
-              <div class="page-inner">
-                <div class="content-container">
-                  <!-- MUSIC SHEETS COMPONENT -->
-                  <sheet-component></sheet-component>
+    
+                <!-- Sheet Music Card -->
+                <div class="col-md-6">
+                    <div class="card card-round">
+                        <div class="card-header">
+                            <div class="card-title">Partitura Musical</div>
+                        </div>
+                        <div class="card-body" style="max-height: 500px; overflow-y: auto;">
+                            <sheet-component></sheet-component>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="row mt-4">
-            <div class="col-md-6">
-              <div class="page-inner">
-                <div class="image-container">
-                  <!-- PIANO COMPONENT -->
-                  <piano-component notes=""></piano-component>
+    
+            <div class="row mt-4">
+                <!-- Piano Component Card -->
+                <div class="col-md-6">
+                    <div class="card card-round">
+                        <div class="card-header">
+                            <div class="card-title">Teclado de Piano</div>
+                        </div>
+                        <div class="card-body">
+                            <piano-component notes=""></piano-component>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="page-inner">
-                <div class="music-info-container">
-                  <!-- RECOMMENDATIONS COMPONENT -->
-                  <recommendations-component></recommendations-component>
+    
+                <!-- Recommendations Component Card -->
+                <div class="col-md-6">
+                    <div class="card card-round">
+                        <div class="card-header">
+                            <div class="card-title">Recomendaciones</div>
+                        </div>
+                        <div class="card-body">
+                            <recommendations-component></recommendations-component>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>      
+        </div>
+    
+        <!-- Footer -->
         <footer class="footer">
-          <div class="container-fluid d-flex justify-content-center">
-            <div class="copyright">
-              &copy; 2025 Piano Listener. All rights reserved.
+            <div class="container-fluid d-flex justify-content-center">
+                <div class="copyright">
+                    &copy; 2025 Piano Listener. All rights reserved.
+                </div>
             </div>
-          </div>
         </footer>
-      </div>
+    </div>
+    
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery-3.7.1.min.js"></script>
     <script src="assets/js/core/popper.min.js"></script>
