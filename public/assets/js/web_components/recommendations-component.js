@@ -45,13 +45,17 @@ class RecommendationsComponent extends HTMLElement {
                 font-size: 1.4em;
             }
             .lever {
+                margin: 0 5px;
+                padding: 0.65rem 1.4rem;
                 cursor: pointer;
-                padding: 5px 10px;
                 background-color: #007bff;
                 color: white;
+                text-transform: capitalize;
+                font-size: 1.2rem;
+                font-weight: bold;
                 border: none;
-                border-radius: 5px;
-                margin-bottom: 10px;
+                border-radius: 3px;
+                opacity: 1;
             }
             .hidden {
                 display: none;
@@ -61,7 +65,7 @@ class RecommendationsComponent extends HTMLElement {
             }
             </style>
             <div>
-                <button class="lever" id="toggleButton">Toggle Info</button>
+                <button class="lever" id="toggleButton">Cambiar Información</button>
                 <div id="recommendationContent">
                     <div id="recommendationContent_info" class="${this._showingRecommendations ? 'hidden' : ''}">
                         <h2>Información de la canción</h2>
