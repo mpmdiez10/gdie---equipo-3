@@ -24,7 +24,7 @@ WEBVTT
         },
         {
             "title": "In My Place",
-            "img": "in_my_place.jpeg"
+            "img": "clocks.jpeg"
         }
     ],
     "song_info": "La canción fue escrita por Chris Martin y la banda, inspirada en la idea de regresar al pasado para corregir errores."
@@ -35,11 +35,11 @@ WEBVTT
     "song_recommendations": [
         {
             "title": "Trouble",
-            "img": "trouble.jpeg"
+            "img": "yellow.jpeg"
         },
         {
             "title": "Shiver",
-            "img": "shiver.jpeg"
+            "img": "yellow.jpeg"
         }
     ],
     "song_info": "'The Scientist' se caracteriza por su progresión melódica suave, con un crescendo que refuerza su carga emocional."
@@ -50,7 +50,7 @@ WEBVTT
     "song_recommendations": [
         {
             "title": "Speed of Sound",
-            "img": "speed_of_sound.jpeg"
+            "img": "fix_you.jpeg"
         },
         {
             "title": "Viva La Vida",
@@ -65,11 +65,11 @@ WEBVTT
     "song_recommendations": [
         {
             "title": "The Hardest Part",
-            "img": "the_hardest_part.jpeg"
+            "img": "fix_you.jpeg"
         },
         {
             "title": "Lost!",
-            "img": "lost.jpeg"
+            "img": "viva_la_vida.jpeg"
         }
     ],
     "song_info": "Desde su lanzamiento, la canción ha sido interpretada en numerosos conciertos de Coldplay y es una de las favoritas de los fans."
@@ -95,11 +95,11 @@ WEBVTT
     "song_recommendations": [
         {
             "title": "A Sky Full of Stars",
-            "img": "a_sky_full_of_stars.jpeg"
+            "img": "magic.jpeg"
         },
         {
             "title": "Charlie Brown",
-            "img": "charlie_brown.jpeg"
+            "img": "paradise.jpeg"
         }
     ],
     "song_info": "Coldplay ha mencionado que 'The Scientist' es una de sus canciones más significativas por su profundidad emocional."
@@ -110,11 +110,11 @@ WEBVTT
     "song_recommendations": [
         {
             "title": "Us Against the World",
-            "img": "us_against_the_world.jpeg"
+            "img": "paradise.jpeg"
         },
         {
             "title": "Everglow",
-            "img": "everglow.jpeg"
+            "img": "paradise.jpeg"
         }
     ],
     "song_info": "El sencillo obtuvo gran reconocimiento en todo el mundo y ha sido versionado por varios artistas."
@@ -140,11 +140,11 @@ WEBVTT
     "song_recommendations": [
         {
             "title": "God Put a Smile Upon Your Face",
-            "img": "god_put_a_smile_upon_your_face.jpeg"
+            "img": "clocks.jpeg"
         },
         {
             "title": "Up&Up",
-            "img": "up_and_up.jpeg"
+            "img": "everglow.jpeg"
         }
     ],
     "song_info": "La canción ha sido utilizada en diversas bandas sonoras y comerciales por su tono melancólico y reflexivo."
@@ -155,7 +155,7 @@ WEBVTT
     "song_recommendations": [
         {
             "title": "Midnight",
-            "img": "midnight.jpeg"
+            "img": "magic.jpeg"
         },
         {
             "title": "Ghost Story",
@@ -174,7 +174,7 @@ WEBVTT
         },
         {
             "title": "Strawberry Swing",
-            "img": "strawberry_swing.jpeg"
+            "img": "viva_la_vida.jpeg"
         }
     ],
     "song_info": "Su impacto ha hecho que sea una de las canciones más queridas en la historia de Coldplay."
@@ -185,11 +185,11 @@ WEBVTT
     "song_recommendations": [
         {
             "title": "O",
-            "img": "o.jpeg"
+            "img": "magic.jpeg"
         },
         {
             "title": "Til Kingdom Come",
-            "img": "til_kingdom_come.jpeg"
+            "img": "fix_you.jpeg"
         }
     ],
     "song_info": "El legado de 'The Scientist' sigue creciendo, convirtiéndose en un himno de la nostalgia y el amor perdido."
