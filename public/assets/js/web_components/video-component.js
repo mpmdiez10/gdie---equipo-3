@@ -77,9 +77,8 @@ class VideoComponent extends HTMLElement {
                 video {
                     border: 1px solid black;
                     height: 90%;
-                    width: auto;
+                    width: 100%;
                     margin: 0 auto;
-                    object-fit: cover;
                 }
                 .songs_buttons_list {
                     display: flex;
