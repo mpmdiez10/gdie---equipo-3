@@ -30,6 +30,9 @@ class RecommendationsComponent extends HTMLElement {
         this.shadowRoot.innerHTML = `
             <style>
             .recommendation {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
                 margin-bottom: 10px;
                 padding: 10px;
                 border-radius: 5px;
