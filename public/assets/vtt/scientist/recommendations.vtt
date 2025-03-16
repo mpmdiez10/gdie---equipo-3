@@ -1,0 +1,196 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:20.000
+{
+    "song_recommendations": [
+        {
+            "title": "Fix You",
+            "img": "fix_you.jpeg"
+        },
+        {
+            "title": "Clocks",
+            "img": "clocks.jpeg"
+        }
+    ],
+    "song_info": "'The Scientist' es una balada de Coldplay lanzada en 2002, caracterizada por su emotiva melodía de piano y su letra introspectiva sobre el amor y el arrepentimiento."
+}
+
+00:00:20.000 --> 00:00:40.000
+{
+    "song_recommendations": [
+        {
+            "title": "Yellow",
+            "img": "yellow.jpeg"
+        },
+        {
+            "title": "In My Place",
+            "img": "clocks.jpeg"
+        }
+    ],
+    "song_info": "La canción fue escrita por Chris Martin y la banda, inspirada en la idea de regresar al pasado para corregir errores."
+}
+
+00:00:40.000 --> 00:01:00.000
+{
+    "song_recommendations": [
+        {
+            "title": "Trouble",
+            "img": "yellow.jpeg"
+        },
+        {
+            "title": "Shiver",
+            "img": "yellow.jpeg"
+        }
+    ],
+    "song_info": "'The Scientist' se caracteriza por su progresión melódica suave, con un crescendo que refuerza su carga emocional."
+}
+
+00:01:00.000 --> 00:01:20.000
+{
+    "song_recommendations": [
+        {
+            "title": "Speed of Sound",
+            "img": "fix_you.jpeg"
+        },
+        {
+            "title": "Viva La Vida",
+            "img": "viva_la_vida.jpeg"
+        }
+    ],
+    "song_info": "El video musical de 'The Scientist' es famoso por su técnica de reproducción inversa, donde Chris Martin aprendió a cantar la canción al revés para sincronizar el movimiento de sus labios."
+}
+
+00:01:20.000 --> 00:01:40.000
+{
+    "song_recommendations": [
+        {
+            "title": "The Hardest Part",
+            "img": "fix_you.jpeg"
+        },
+        {
+            "title": "Lost!",
+            "img": "viva_la_vida.jpeg"
+        }
+    ],
+    "song_info": "Desde su lanzamiento, la canción ha sido interpretada en numerosos conciertos de Coldplay y es una de las favoritas de los fans."
+}
+
+00:01:40.000 --> 00:02:00.000
+{
+    "song_recommendations": [
+        {
+            "title": "Paradise",
+            "img": "paradise.jpeg"
+        },
+        {
+            "title": "Magic",
+            "img": "magic.jpeg"
+        }
+    ],
+    "song_info": "La letra expresa un sentimiento de desesperación y el deseo de volver a empezar, lo que la hace especialmente emotiva."
+}
+
+00:02:00.000 --> 00:02:20.000
+{
+    "song_recommendations": [
+        {
+            "title": "A Sky Full of Stars",
+            "img": "magic.jpeg"
+        },
+        {
+            "title": "Charlie Brown",
+            "img": "paradise.jpeg"
+        }
+    ],
+    "song_info": "Coldplay ha mencionado que 'The Scientist' es una de sus canciones más significativas por su profundidad emocional."
+}
+
+00:02:20.000 --> 00:02:40.000
+{
+    "song_recommendations": [
+        {
+            "title": "Us Against the World",
+            "img": "paradise.jpeg"
+        },
+        {
+            "title": "Everglow",
+            "img": "paradise.jpeg"
+        }
+    ],
+    "song_info": "El sencillo obtuvo gran reconocimiento en todo el mundo y ha sido versionado por varios artistas."
+}
+
+00:02:40.000 --> 00:03:00.000
+{
+    "song_recommendations": [
+        {
+            "title": "Something Just Like This",
+            "img": "something_just_like_this.jpeg"
+        },
+        {
+            "title": "Orphans",
+            "img": "orphans.jpeg"
+        }
+    ],
+    "song_info": "El sonido del piano en 'The Scientist' se ha convertido en uno de los elementos más icónicos de la discografía de Coldplay."
+}
+
+00:03:00.000 --> 00:03:20.000
+{
+    "song_recommendations": [
+        {
+            "title": "God Put a Smile Upon Your Face",
+            "img": "clocks.jpeg"
+        },
+        {
+            "title": "Up&Up",
+            "img": "everglow.jpeg"
+        }
+    ],
+    "song_info": "La canción ha sido utilizada en diversas bandas sonoras y comerciales por su tono melancólico y reflexivo."
+}
+
+00:03:20.000 --> 00:03:40.000
+{
+    "song_recommendations": [
+        {
+            "title": "Midnight",
+            "img": "magic.jpeg"
+        },
+        {
+            "title": "Ghost Story",
+            "img": "ghost_story.jpeg"
+        }
+    ],
+    "song_info": "A pesar de ser una balada melancólica, 'The Scientist' transmite un mensaje de redención y esperanza."
+}
+
+00:03:40.000 --> 00:04:00.000
+{
+    "song_recommendations": [
+        {
+            "title": "Miracles",
+            "img": "miracles.jpeg"
+        },
+        {
+            "title": "Strawberry Swing",
+            "img": "viva_la_vida.jpeg"
+        }
+    ],
+    "song_info": "Su impacto ha hecho que sea una de las canciones más queridas en la historia de Coldplay."
+}
+
+00:04:00.000 --> 00:04:26.000
+{
+    "song_recommendations": [
+        {
+            "title": "O",
+            "img": "magic.jpeg"
+        },
+        {
+            "title": "Til Kingdom Come",
+            "img": "fix_you.jpeg"
+        }
+    ],
+    "song_info": "El legado de 'The Scientist' sigue creciendo, convirtiéndose en un himno de la nostalgia y el amor perdido."
+}

@@ -1,0 +1,151 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:20.000
+{
+    "song_recommendations": [
+        {
+            "title": "Here comes the sun",
+            "img": "here_comes_the_sun.jpeg"
+        },
+        {
+            "title": "Let it be",
+            "img": "let_it_be.jpeg"
+        }
+    ],
+    "song_info": "'Imagine' de John Lennon es una canción lanzada en 1971, conocida por su mensaje de paz y esperanza. Es considerada uno de los himnos más icónicos de la música y ha sido interpretada en momentos clave de la historia mundial."
+}
+
+00:00:20.000 --> 00:00:40.000
+{
+    "song_recommendations": [
+        {
+            "title": "Hey Jude",
+            "img": "hey_jude.jpeg"
+        },
+        {
+            "title": "Yesterday",
+            "img": "yesterday.jpeg"
+        }
+    ],
+    "song_info": "John Lennon compuso 'Imagine' inspirándose en la poesía de Yoko Ono y en sus ideales pacifistas. La letra invita a imaginar un mundo sin divisiones ni posesiones."
+}
+
+00:00:40.000 --> 00:01:00.000
+{
+    "song_recommendations": [
+        {
+            "title": "Something",
+            "img": "here_comes_the_sun.jpeg"
+        },
+        {
+            "title": "Blackbird",
+            "img": "blackbird.jpeg"
+        }
+    ],
+    "song_info": "La melodía y la instrumentación de 'Imagine' son sencillas pero poderosas. El piano acompaña suavemente la voz de Lennon, creando una atmósfera de serenidad."
+}
+
+00:01:00.000 --> 00:01:20.000
+{
+    "song_recommendations": [
+        {
+            "title": "Let’s Spend the Night Together",
+            "img": "lets_spend_the_night_together.jpeg"
+        },
+        {
+            "title": "Bohemian Rhapsody",
+            "img": "bohemian_rhapsody.jpeg"
+        }
+    ],
+    "song_info": "Desde su lanzamiento, 'Imagine' ha sido utilizada en eventos que promueven la paz y la unidad mundial. Su mensaje sigue vigente décadas después."
+}
+
+00:01:20.000 --> 00:01:40.000
+{
+    "song_recommendations": [
+        {
+            "title": "Wish You Were Here",
+            "img": "wish_you_were_here.jpeg"
+        },
+        {
+            "title": "Stairway to Heaven",
+            "img": "stairway_to_heaven.jpeg"
+        }
+    ],
+    "song_info": "El video musical de 'Imagine' muestra a John y Yoko en una casa blanca, simbolizando la pureza del mensaje de la canción."
+}
+
+00:01:40.000 --> 00:02:00.000
+{
+    "song_recommendations": [
+        {
+            "title": "Hotel California",
+            "img": "hotel_california.jpeg"
+        },
+        {
+            "title": "Knocking on Heaven’s Door",
+            "img": "knocking_on_heavens_door.jpeg"
+        }
+    ],
+    "song_info": "Numerosos artistas han interpretado 'Imagine', incluyendo a Elton John, Queen y Madonna, demostrando su impacto en la cultura musical."
+}
+
+00:02:00.000 --> 00:02:20.000
+{
+    "song_recommendations": [
+        {
+            "title": "Hallelujah",
+            "img": "hallelujah.jpeg"
+        },
+        {
+            "title": "Sound of Silence",
+            "img": "sound_of_silence.jpeg"
+        }
+    ],
+    "song_info": "En 2017, la canción fue reconocida oficialmente por la ONU como un himno de paz global."
+}
+
+00:02:20.000 --> 00:02:40.000
+{
+    "song_recommendations": [
+        {
+            "title": "Bridge Over Troubled Water",
+            "img": "bridge_over_troubled_water.jpeg"
+        },
+        {
+            "title": "Yesterday Once More",
+            "img": "yesterday_once_more.jpeg"
+        }
+    ],
+    "song_info": "El sencillo 'Imagine' alcanzó el número uno en varios países y se ha vendido en millones de copias en todo el mundo."
+}
+
+00:02:40.000 --> 00:03:00.000
+{
+    "song_recommendations": [
+        {
+            "title": "Angie",
+            "img": "angie.jpeg"
+        },
+        {
+            "title": "More Than a Feeling",
+            "img": "more_than_a_feeling.jpeg"
+        }
+    ],
+    "song_info": "El mensaje de la canción sigue inspirando generaciones y es un recordatorio del poder de la música para cambiar el mundo."
+}
+
+00:03:00.000 --> 00:03:14.000
+{
+    "song_recommendations": [
+        {
+            "title": "Don’t Stop Believin’",
+            "img": "dont_stop_believin.jpeg"
+        },
+        {
+            "title": "What a Wonderful World",
+            "img": "what_a_wonderful_world.jpeg"
+        }
+    ],
+    "song_info": "John Lennon imaginó un mundo unido, y su legado sigue vivo a través de esta canción icónica."
+}

@@ -33,13 +33,34 @@
       });
     </script>
 
+    <!----- Librerías ----->
+    <!-- RXJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.5.6/rxjs.umd.min.js"></script>
+    <!-- VTT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vtt.js/0.13.0/vtt.min.js"></script>
+     <!-- Scribe music -->
+     <script title="load">
+      document.documentElement.className += ' js loading';
+      window.addEventListener('load', () => window.requestAnimationFrame(() => document.documentElement.classList.remove('loading')));
+      window.DEBUG = true;
+    </script>
+
+    <!-- Import <scribe-music> -->
+    <link rel="stylesheet" href="https://stephen.band/scribe/scribe-music/module.css" />
+    <script type="module" src="https://stephen.band/scribe/scribe-music/module.js"></script>
+
+    <!-- Scripts webcomponents -->
+    <script src="assets/js/event-bus.js" type="module"></script>
+    <script src="assets/js/web_components/piano-component.js" defer></script>
+    <script src="assets/js/web_components/video-component.js" defer></script>
+    <script src="assets/js/web_components/sheet-component.js" defer></script>    
+    <script src="assets/js/web_components/recommendations-component.js" defer></script>
+
     <!-- CSS Files -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/plugins.min.css" />
     <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
 
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="assets/css/demo.css" />
   </head>
   <body>
     <div class="wrapper">
@@ -93,73 +114,69 @@
 
       <div class="main-panel">
         <div class="container">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="page-inner">
-                  <div class="video-container">
-                    <video id="videoPlayer" controls width="100%">
-                      <source src="assets/media/videos/scientist_4k.mp4" type="video/mp4" media="(min-width: 2560px)">
-                      <source src="assets/media/videos/scientist_1080.mp4" type="video/mp4" media="(min-width: 1280px)">
-                      <source src="assets/media/videos/scientist_720.mp4" type="video/mp4" media="(min-width: 720px)">
-                      <source src="assets/media/videos/scientist_480.mp4" type="video/mp4">
-                      
-                      <!-- Subtítulos -->
-                      <track src="assets/vtt/scientist.vtt" kind="subtitles" srclang="en" label="Inglés" default>
-                      
-                      Tu navegador no soporta el video.
-                    </video>
-                    <div class="video-selector">
-                      <button class="btn btn-primary" onclick="changeVideo('assets/media/videos/imagine_4k.mp4')">John Lennon - Imagine</button>
-                      <button class="btn btn-primary" onclick="changeVideo('assets/media/videos/scientist_4k.mp4')">Coldplay - The Scientist</button>
+            <div class="row">
+                <!-- Video Player Card -->
+                <div class="col-md-6">
+                    <div class="card card-round">
+                        <div class="card-header">
+                            <div class="card-title">Reproductor de Video</div>
+                        </div>
+                        <div class="card-body">
+                            <video-component song="imagine"></video-component>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-            <div class="col-md-6">
-              <div class="page-inner">
-                <div class="content-container">
-                  <h2>Right Side Content</h2>
-                  <p>This is where you can add additional content.</p>
+    
+                <!-- Sheet Music Card -->
+                <div class="col-md-6">
+                    <div class="card card-round">
+                        <div class="card-header">
+                            <div class="card-title">Partitura Musical</div>
+                        </div>
+                        <div class="card-body" style="max-height: 500px; overflow-y: auto;">
+                            <sheet-component></sheet-component>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="row mt-4">
-            <div class="col-md-6">
-              <div class="page-inner">
-                <div class="image-container">
-                  <h2>Piano Keys</h2>
-                  <p>This is where you add the piano.</p>
+    
+            <div class="row mt-4">
+                <!-- Piano Component Card -->
+                <div class="col-md-6">
+                    <div class="card card-round">
+                        <div class="card-header">
+                            <div class="card-title">Teclado de Piano</div>
+                        </div>
+                        <div class="card-body">
+                            <piano-component notes=""></piano-component>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="page-inner">
-                <div class="music-info-container">
-                  <h2>Music Information</h2>
-                  <p>Details about the music being played.</p>
+    
+                <!-- Recommendations Component Card -->
+                <div class="col-md-6">
+                    <div class="card card-round">
+                        <div class="card-header">
+                            <div class="card-title">Recomendaciones</div>
+                        </div>
+                        <div class="card-body">
+                            <recommendations-component></recommendations-component>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-        <script>
-          function changeVideo(src) {
-            const videoPlayer = document.getElementById('videoPlayer');
-            videoPlayer.src = src;
-            videoPlayer.load();
-            videoPlayer.play();
-          }
-        </script>
-      
+    
+        <!-- Footer -->
         <footer class="footer">
-          <div class="container-fluid d-flex justify-content-center">
-            <div class="copyright">
-              &copy; 2025 Piano Listener. All rights reserved.
+            <div class="container-fluid d-flex justify-content-center">
+                <div class="copyright">
+                    &copy; 2025 Piano Listener. All rights reserved.
+                </div>
             </div>
-          </div>
         </footer>
-      </div>
+    </div>
+    
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery-3.7.1.min.js"></script>
     <script src="assets/js/core/popper.min.js"></script>
