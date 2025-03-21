@@ -52,22 +52,23 @@ class PianoComponent extends HTMLElement {
           #piano {
             position: relative;
             margin: 0 auto;
-            width: 700px; /* Double the width */
-            height: 300px; /* Double the height */
+            width: 100%;
+            height: 125px;
+            max-width: 700px;
             display: flex;
             border: 2px solid black;
           }
           .white-key {
-            width: 100px; /* Double the width */
-            height: 300px; /* Double the height */
+            flex: 1;
             background: white;
-            border: 2px solid black;
+            border: 1px solid black;
             position: relative;
+            height: 125px;
           }
           .black-key {
-            width: 60px; /* Double the width */
-            height: 180px; /* Double the height */
-            border: 2px solid black;
+            width: 8.5%;
+            height: 60%;
+            border: 1px solid black;
             background: black;
             position: absolute;
             z-index: 100;
@@ -75,18 +76,51 @@ class PianoComponent extends HTMLElement {
           .highlight {
             background: lightblue !important;
           }
-          #C\\# { left: 70px; } /* Double the left position */
-          #D\\# { left: 170px; } /* Double the left position */
-          #F\\# { left: 370px; } /* Double the left position */
-          #G\\# { left: 470px; } /* Double the left position */
-          #A\\# { left: 570px; } /* Double the left position */
+          #C\\# { left: 9.5%; }
+          #D\\# { left: 24%; }
+          #F\\# { left: 52.5%; }
+          #G\\# { left: 67%; }
+          #A\\# { left: 81.5%; }
+          
+          @media (min-width: 768px) {
+            #piano {
+              height: 150px; /* Fixed height for desktop */
+            }
+            .white-key {
+              height: 150px; /* Fixed height for desktop */
+            }
+          }
+          @media (min-width: 1024px) {
+            #piano {
+              height: 200px; /* Fixed height for desktop */
+            }
+            .white-key {
+              height: 200px; /* Fixed height for desktop */
+            }
+          }
+          @media (min-width: 1280px) {
+            #piano {
+              height: 250px; /* Fixed height for desktop */
+            }
+            .white-key {
+              height: 250px; /* Fixed height for desktop */
+            }
+          }
+          @media (min-width: 1536px) {
+            #piano {
+              height: 300px; /* Fixed height for desktop */
+            }
+            .white-key {
+              height: 300px; /* Fixed height for desktop */
+            }
+          }
         </style>
         <div id="piano">
           ${keys
-            .map(
-              (key) => `<div id="${key.id}" class="${key.type}-key ${highlightedNotes.includes(key.id) ? "highlight" : ""}"></div>`
-            )
-            .join("")}
+        .map(
+          (key) => `<div id="${key.id}" class="${key.type}-key ${highlightedNotes.includes(key.id) ? "highlight" : ""}"></div>`
+        )
+        .join("")}
         </div>
       `;
     }
