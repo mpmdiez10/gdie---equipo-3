@@ -39,7 +39,7 @@ class SheetComponent extends HTMLElement {
     }
 
     render() {
-        this.shadowRoot.innerHTML = `
+        this.shadowRoot.innerHTML = /* html */`
             <style>
                 #container_music_sheet {
                     display: flex;

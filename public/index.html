@@ -58,8 +58,8 @@
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/plugins.min.css" />
-    <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
+    <link rel="stylesheet" href="assets/css/plugins.css" />
+    <link rel="stylesheet" href="assets/css/kaiadmin.css" />
 
   </head>
   <body>
@@ -128,8 +128,8 @@
                 </div>
     
                 <!-- Sheet Music Card -->
-                <div class="col-md-6">
-                    <div class="card card-round">
+                <div class="col-md-6 d-flex flex-column">
+                    <div class="card card-round flex-grow-1">
                         <div class="card-header">
                             <div class="card-title">Partitura Musical</div>
                         </div>
@@ -154,13 +154,13 @@
                 </div>
     
                 <!-- Recommendations Component Card -->
-                <div class="col-md-6">
-                    <div class="card card-round">
+                <div class="col-md-6 d-flex flex-column">
+                    <div class="card card-round flex-grow-1">
                         <div class="card-header">
                             <div class="card-title">Recomendaciones</div>
                         </div>
-                        <div class="card-body">
-                            <recommendations-component></recommendations-component>
+                        <div class="card-body d-flex flex-column">
+                          <recommendations-component class="flex-grow-1"></recommendations-component>
                         </div>
                     </div>
                 </div>
