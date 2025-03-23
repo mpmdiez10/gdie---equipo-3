@@ -63,7 +63,7 @@ class PianoComponent extends HTMLElement {
             background: white;
             border: 1px solid black;
             position: relative;
-            height: 125px;
+            height: 100%;
           }
           .black-key {
             width: 8.5%;
@@ -86,15 +86,9 @@ class PianoComponent extends HTMLElement {
             #piano {
               height: 150px; /* Fixed height for desktop */
             }
-            .white-key {
-              height: 150px; /* Fixed height for desktop */
-            }
           }
           @media (min-width: 1024px) {
             #piano {
-              height: 200px; /* Fixed height for desktop */
-            }
-            .white-key {
               height: 200px; /* Fixed height for desktop */
             }
           }
@@ -102,15 +96,9 @@ class PianoComponent extends HTMLElement {
             #piano {
               height: 250px; /* Fixed height for desktop */
             }
-            .white-key {
-              height: 250px; /* Fixed height for desktop */
-            }
           }
           @media (min-width: 1536px) {
             #piano {
-              height: 300px; /* Fixed height for desktop */
-            }
-            .white-key {
               height: 300px; /* Fixed height for desktop */
             }
           }
