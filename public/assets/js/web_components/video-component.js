@@ -102,9 +102,13 @@ class VideoComponent extends HTMLElement {
             </style>
             <video controls width="640" height="360">
                 <source src="assets/media/video/${this.getAttribute('song')}/4k.mp4" type="video/mp4" media="(min-width: 2560px)">
-                <source src="assets/media/video/${this.getAttribute('song')}/1080.mp4"" type="video/mp4" media="(min-width: 1280px)">
-                <source src="assets/media/video/${this.getAttribute('song')}/720.mp4"" type="video/mp4" media="(min-width: 720px)">
-                <source src="assets/media/video/${this.getAttribute('song')}/480.mp4"" type="video/mp4">
+                <source src="assets/media/video/${this.getAttribute('song')}/4k.webm" type="video/webm" media="(min-width: 2560px)">
+                <source src="assets/media/video/${this.getAttribute('song')}/1080.mp4" type="video/mp4" media="(min-width: 1280px)">
+                <source src="assets/media/video/${this.getAttribute('song')}/1080.webm" type="video/webm" media="(min-width: 1280px)">
+                <source src="assets/media/video/${this.getAttribute('song')}/720.mp4" type="video/mp4" media="(min-width: 720px)">
+                <source src="assets/media/video/${this.getAttribute('song')}/720.webm" type="video/webm" media="(min-width: 720px)">
+                <source src="assets/media/video/${this.getAttribute('song')}/480.mp4" type="video/mp4">
+                <source src="assets/media/video/${this.getAttribute('song')}/480.webm" type="video/webm">
 
                 <track id="sheetsTrack" kind="metadata" label="Sheets" src="assets/vtt/${this.song_playing}/sheets.vtt">
                 <track id="keysTrack" kind="metadata" label="Keys" src="assets/vtt/${this.song_playing}/keys.vtt">
