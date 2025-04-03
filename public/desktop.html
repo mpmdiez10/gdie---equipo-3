@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Piano Listener</title>
+    <meta
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+      name="viewport"
+    />
+    <link
+      rel="icon"
+      href="assets/media/img/logo_piano.svg"
+      type="image/x-icon"
+    />
+
+    <!-- Fonts and icons -->
+    <script src="assets/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+      WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: ["assets/css/fonts.min.css"],
+        },
+        active: function () {
+          sessionStorage.fonts = true;
+        },
+      });
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!----- Librerías ----->
+    <!-- RXJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.5.6/rxjs.umd.min.js"></script>
+    <!-- VTT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vtt.js/0.13.0/vtt.min.js"></script>
+    <!-- Loading management -->
+    <script title="load">
+      document.documentElement.className += ' js loading';
+      window.addEventListener('load', () => window.requestAnimationFrame(() => document.documentElement.classList.remove('loading')));
+      window.DEBUG = true;
+    </script>
+
+    <!-- Import <scribe-music> -->
+    <link rel="stylesheet" href="https://stephen.band/scribe/scribe-music/module.css" />
+    <script type="module" src="https://stephen.band/scribe/scribe-music/module.js"></script>
+
+    <!-- Scripts webcomponents -->
+    <script src="assets/js/event-bus.js" type="module"></script>
+    <script src="assets/js/web_components/piano-component.js" defer></script>
+    <script src="assets/js/web_components/video-component.js" defer></script>
+    <script src="assets/js/web_components/sheet-component.js" defer></script>    
+    <script src="assets/js/web_components/recommendations-component.js" defer></script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/plugins.css" />
+    <link rel="stylesheet" href="assets/css/kaiadmin.css" />
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <div class="sidebar" data-background-color="dark">
+        <div class="sidebar-logo">
+          <!-- Logo Header -->
+          <div class="logo-header" data-background-color="dark">
+            <a href="index.html" class="logo">
+              <img
+              src="assets/media/img/logo_piano_texto.svg"
+              alt="navbar brand"
+              class="navbar-brand"
+              height="150"
+              />
+            </a>
+            <div class="nav-toggle">
+              <button class="btn btn-toggle toggle-sidebar">
+                <i class="gg-menu-right"></i>
+              </button>
+              <button class="btn btn-toggle sidenav-toggler">
+                <i class="gg-menu-left"></i>
+              </button>
+            </div>
+            <button class="topbar-toggler more">
+              <i class="gg-more-vertical-alt"></i>
+            </button>
+          </div>
+          <!-- End Logo Header -->
+        </div>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+          <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+              <li class="nav-item active">
+                <a
+                  data-bs-toggle="collapse"
+                  href="#dashboard"
+                  class="collapsed"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-home"></i>
+                  <p>Inicio</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- End Sidebar -->
+
+      <div class="main-panel">
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card card-round">
+                        <div class="card-header">
+                            <div class="card-title">Teclado de Piano</div>
+                        </div>
+                        <div class="card-body">
+                            <piano-component notes=""></piano-component>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container-fluid d-flex justify-content-center">
+                <div class="copyright">
+                    &copy; 2025 Piano Listener. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!--   Core JS Files   -->
+    <script src="assets/js/core/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/core/popper.min.js"></script>
+    <script src="assets/js/core/bootstrap.min.js"></script>
+
+    <!-- jQuery Scrollbar -->
+    <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+    <!-- Kaiadmin JS -->
+    <script src="assets/js/kaiadmin.min.js"></script>
+
+    <script>
+      const socket = io();
+    </script>
+  </body>
+</html>

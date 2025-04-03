@@ -34,6 +34,10 @@ class PianoComponent extends HTMLElement {
     get notes() {
       return this.getAttribute("notes")?.split(",") || [];
     }
+
+    get window() {
+      return this.getAttribute("window") || "desktop";
+    }
   
     render() {
       const keys = [
@@ -49,59 +53,108 @@ class PianoComponent extends HTMLElement {
   
       this.shadowRoot.innerHTML = `
         <style>
-          #piano {
-            position: relative;
-            margin: 0 auto;
-            width: 100%;
-            height: 125px;
-            max-width: 700px;
-            display: flex;
-            border: 2px solid black;
-          }
-          .white-key {
-            flex: 1;
-            background: white;
-            border: 1px solid black;
-            position: relative;
-            height: 100%;
-          }
-          .black-key {
-            width: 8.5%;
-            height: 60%;
-            border: 1px solid black;
-            background: black;
-            position: absolute;
-            z-index: 100;
-          }
-          .highlight {
-            background: lightblue !important;
-          }
-          #C\\# { left: 9.5%; }
-          #D\\# { left: 24%; }
-          #F\\# { left: 52.5%; }
-          #G\\# { left: 67%; }
-          #A\\# { left: 81.5%; }
-          
-          @media (min-width: 768px) {
+        ${this.window === "mobile" ? 
+        // Visualización de móvil
+          `
             #piano {
-              height: 150px; /* Fixed height for desktop */
+              position: relative;
+              margin: 0 auto;
+              width: 100%; /* Swapped width and height */
+              height: 100%; /* Full height */
+              max-height: 700px; /* Adjusted max height */
+              display: flex;
+              flex-direction: column; /* Stack keys vertically */
+              border: 2px solid black;
             }
-          }
-          @media (min-width: 1024px) {
+
+            .white-key {
+              flex: 1;
+              background: white;
+              border: 1px solid black;
+              position: relative;
+              width: 100%; /* Full width for vertical layout */
+              height: auto; /* Adjust height dynamically */
+            }
+
+            .black-key {
+              height: 8.5%; /* Adjusted height for vertical layout */
+              width: 60%; /* Adjusted width for black keys */
+              border: 1px solid black;
+              background: black;
+              position: absolute;
+              left: 20%; /* Center black keys horizontally */
+              z-index: 100;
+            }
+
+            .highlight {
+              background: lightblue !important;
+            }
+
+            /* Adjust positions for black keys in vertical layout */
+            #C\\# { top: 9.5%; left: 40%; }
+            #D\\# { top: 24%; left: 40%; }
+            #F\\# { top: 52.5%; left: 40%; }
+            #G\\# { top: 67%; left: 40%; }
+            #A\\# { top: 81.5%; left: 40%; }
+          ` 
+        : 
+        // Visualización de escritorio
+          `
             #piano {
-              height: 200px; /* Fixed height for desktop */
+              position: relative;
+              margin: 0 auto;
+              width: 100%;
+              height: 125px;
+              max-width: 700px;
+              display: flex;
+              border: 2px solid black;
             }
-          }
-          @media (min-width: 1280px) {
-            #piano {
-              height: 250px; /* Fixed height for desktop */
+            .white-key {
+              flex: 1;
+              background: white;
+              border: 1px solid black;
+              position: relative;
+              height: 100%;
             }
-          }
-          @media (min-width: 1536px) {
-            #piano {
-              height: 300px; /* Fixed height for desktop */
+            .black-key {
+              width: 8.5%;
+              height: 60%;
+              border: 1px solid black;
+              background: black;
+              position: absolute;
+              z-index: 100;
             }
-          }
+            .highlight {
+              background: lightblue !important;
+            }
+            #C\\# { left: 9.5%; }
+            #D\\# { left: 24%; }
+            #F\\# { left: 52.5%; }
+            #G\\# { left: 67%; }
+            #A\\# { left: 81.5%; }
+            
+            @media (min-width: 768px) {
+              #piano {
+                height: 150px; /* Fixed height for desktop */
+              }
+            }
+            @media (min-width: 1024px) {
+              #piano {
+                height: 200px; /* Fixed height for desktop */
+              }
+            }
+            @media (min-width: 1280px) {
+              #piano {
+                height: 250px; /* Fixed height for desktop */
+              }
+            }
+            @media (min-width: 1536px) {
+              #piano {
+                height: 300px; /* Fixed height for desktop */
+              }
+            }
+          `
+        }
         </style>
         <div id="piano">
           ${keys
