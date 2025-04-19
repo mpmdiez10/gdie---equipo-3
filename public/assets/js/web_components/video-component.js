@@ -91,14 +91,6 @@ class VideoComponent extends HTMLElement {
             this.roomId = roomId;
             console.log('roomId', roomId);
         });
-
-        // TEMP
-        // setInterval(() => {
-        //     alert('Enviando mensaje a la sala...');
-        //     socket.emit('main message', {
-        //         text: 'Estamos en la salaaaa'
-        //     })
-        // }, 20000);
     }
 
     render() {
