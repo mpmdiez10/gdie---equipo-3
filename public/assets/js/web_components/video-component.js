@@ -191,6 +191,9 @@ class VideoComponent extends HTMLElement {
                 this.song_playing = button.getAttribute('data-song');
                 this.setAttribute('song', this.song_playing);
                 this.updateKeyNotes({ keys: [] });
+                this._socket.emit('main message', {
+                    keys: ''
+                });
                 this.updateSheetNotes({ compasses: [] });
                 this.updateRecommendations({ song_recommendations: [], song_info: '' });
                 this.render();
