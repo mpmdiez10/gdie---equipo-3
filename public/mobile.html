@@ -13,32 +13,11 @@
       type="image/x-icon"
     />
 
-    <!-- Fonts and icons -->
-    <script src="assets/js/plugin/webfont/webfont.min.js"></script>
-    <script>
-      WebFont.load({
-        google: { families: ["Public Sans:300,400,500,600,700"] },
-        custom: {
-          families: [
-            "Font Awesome 5 Solid",
-            "Font Awesome 5 Regular",
-            "Font Awesome 5 Brands",
-            "simple-line-icons",
-          ],
-          urls: ["assets/css/fonts.min.css"],
-        },
-        active: function () {
-          sessionStorage.fonts = true;
-        },
-      });
-    </script>
-    <script src="/socket.io/socket.io.js"></script>
-
     <!----- Librerías ----->
+    <!-- Socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
     <!-- RXJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.5.6/rxjs.umd.min.js"></script>
-    <!-- VTT -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vtt.js/0.13.0/vtt.min.js"></script>
     <!-- Loading management -->
     <script title="load">
       document.documentElement.className += ' js loading';
@@ -46,15 +25,8 @@
       window.DEBUG = true;
     </script>
 
-    <!-- Import <scribe-music> -->
-    <link rel="stylesheet" href="https://stephen.band/scribe/scribe-music/module.css" />
-    <script type="module" src="https://stephen.band/scribe/scribe-music/module.js"></script>
-
     <!-- Scripts webcomponents -->
     <script src="assets/js/web_components/piano-component.js" defer></script>
-    <script src="assets/js/web_components/video-component.js" defer></script>
-    <script src="assets/js/web_components/sheet-component.js" defer></script>    
-    <script src="assets/js/web_components/recommendations-component.js" defer></script>
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -130,19 +102,7 @@
     <!-- Kaiadmin JS -->
     <script src="assets/js/kaiadmin.min.js"></script>
 
-    <script>
-      const urlParams = new URLSearchParams(window.location.search);
-      const roomId = urlParams.get('roomId');
-      
-      const socket = io();
-      socket.emit('init mobile message', {roomId: roomId});
-      socket.on('init mobile message', (msg) => {
-        alert(msg.text);
-      });
-      socket.on('room message', (msg) => {
-        piano = document.querySelector('piano-component');
-        piano.setAttribute('notes', msg.text);
-      });
-    </script>
+    <!-- Socket management file -->
+    <script src="assets/js/clone-socket.js"></script>
   </body>
 </html>
