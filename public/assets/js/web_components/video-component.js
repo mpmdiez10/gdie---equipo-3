@@ -89,7 +89,7 @@ class VideoComponent extends HTMLElement {
         // Recibir el valor de la sala // TODO: Revisar si esto es necesario 
         socket.on('init main message', (roomId) => {
             this.roomId = roomId;
-            console.log('roomId', roomId);
+            document.querySelector('piano-component').setAttribute('roomCode', roomId);
         });
     }
 

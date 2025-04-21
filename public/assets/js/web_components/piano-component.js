@@ -2,6 +2,7 @@ class PianoComponent extends HTMLElement {
     constructor() {
       super();
       this.attachShadow({ mode: "open" }); // Shadow DOM
+      this._showingPiano = true;
     }
   
     connectedCallback() {
@@ -22,11 +23,11 @@ class PianoComponent extends HTMLElement {
     }
 
     static get observedAttributes() {
-      return ["notes"];
+      return ["notes", "roomCode"];
     }
   
     attributeChangedCallback(name, oldValue, newValue) {
-      if (name === "notes") {
+      if (name === "notes" || name === "roomCode") {
         this.render();
       }
     }
@@ -37,6 +38,10 @@ class PianoComponent extends HTMLElement {
 
     get window() {
       return this.getAttribute("window") || "desktop";
+    }
+
+    get roomCode() {
+      return this.getAttribute("roomCode");
     }
   
     render() {
@@ -51,11 +56,14 @@ class PianoComponent extends HTMLElement {
   
       const highlightedNotes = this.notes;
   
-      this.shadowRoot.innerHTML = `
+      this.shadowRoot.innerHTML = /* html */ `
         <style>
-        ${this.window === "mobile" ? 
-        // Visualización de móvil
+        ${this.window === "mobile" ? /* css */ 
           `
+            .piano_component {
+              height: 100%;
+            }
+
             #piano {
               position: relative;
               margin: 0 auto;
@@ -99,7 +107,41 @@ class PianoComponent extends HTMLElement {
           ` 
         : 
         // Visualización de escritorio
-          `
+          /* css */`
+            .lever {
+                margin: 0 5px 30px 5px;
+                padding: 0.65rem 1.4rem;
+                cursor: pointer;
+                background-color: #007bff;
+                color: white;
+                text-transform: capitalize;
+                font-size: 1.2rem;
+                font-weight: bold;
+                border: none;
+                border-radius: 3px;
+                opacity: 1;
+            }
+            .link {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                margin: 0 5px;
+                text-decoration: none;
+                padding: 0.5rem 1rem;
+                cursor: pointer;
+                background-color: #007bff;
+                color: white;
+                font-size: 1rem;
+                font-weight: bold;
+                border: none;
+                border-radius: 3px;
+                opacity: 1;
+            }
+            .link img {
+                width: 20px;
+                height: 20px;
+            }
             #piano {
               position: relative;
               margin: 0 auto;
@@ -153,19 +195,67 @@ class PianoComponent extends HTMLElement {
                 height: 300px; /* Fixed height for desktop */
               }
             }
+            .hidden {
+                display: none !important;
+            }
+            .qr_code_container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+            }
           `
         }
         </style>
-        <div id="piano">
-          ${keys
-        .map(
-          (key) => `<div id="${key.id}" class="${key.type}-key ${highlightedNotes.includes(key.id) ? "highlight" : ""}"></div>`
-        )
-        .join("")}
+        <div class="piano_component">
+          ${this.roomCode && this.window !== "mobile" ? `<button class="lever" id="toggleButtonPiano">Cambiar Información</button>` : ``}
+          <div id="piano" class=${this._showingPiano ? "" : "hidden"}>
+            ${keys
+              .map(
+                (key) => /* html */`<div id="${key.id}" class="${key.type}-key ${highlightedNotes.includes(key.id) ? "highlight" : ""}"></div>`
+              )
+              .join("")
+            }
+          </div>
+          ${this.roomCode && this.window !== "mobile" ? /* html */ `
+            <div class="qr_code_container ${this._showingPiano ? "hidden" : ""}">
+              <div id="qrcode"></div>
+              <!-- TODO: Descomentar para producción -->
+              <!-- <a class="link" href="https://gdie2503.ltim.uib.es/mobile.html?roomId=${this.roomCode}" target="_blank"> Abrir en el navegador</a> -->
+              <a class="link" href="http://localhost/mobile.html?roomId=hola" target="_blank">
+                Abrir en el navegador
+                <img src="assets/media/img/icons/external-link.svg" />
+              </a>
+            </div>
+          ` : ``}
         </div>
       `;
+
+      if (this.roomCode && this.window !== "mobile") {
+        // TODO: Descomentar para producción
+        // new QRCode(this.shadowRoot.getElementById("qrcode"), {
+        //   text: "https://gdie2503.ltim.uib.es/mobile.html?roomId=" + this.roomCode,
+        //   width: 128,
+        //   height: 128
+        // });
+
+        new QRCode(this.shadowRoot.getElementById("qrcode"), {
+          text: "http://localhost/mobile.html?roomId=hola" /* + this.roomCode*/ ,
+          width: 128,
+          height: 128
+        });
+
+        const toggleButtonPiano = this.shadowRoot.getElementById('toggleButtonPiano');
+
+        toggleButtonPiano.addEventListener('click', () => {
+          this._showingPiano = !this._showingPiano;
+          this.render();
+        });
+      }
     }
   }
   
-  customElements.define("piano-component", PianoComponent);
+customElements.define("piano-component", PianoComponent);
   
