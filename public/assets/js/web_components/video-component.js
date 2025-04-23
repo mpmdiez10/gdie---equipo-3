@@ -86,9 +86,8 @@ class VideoComponent extends HTMLElement {
         // Indica que se inicaliza el compartir información de las teclas
         socket.emit('init main message');
 
-        // Recibir el valor de la sala // TODO: Revisar si esto es necesario 
+        // Recibir el valor de la sala
         socket.on('init main message', (roomId) => {
-            this.roomId = roomId;
             document.querySelector('piano-component').setAttribute('roomCode', roomId);
         });
     }
