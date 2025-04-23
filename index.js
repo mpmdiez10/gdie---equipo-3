@@ -15,46 +15,30 @@ app.use(express.static('public'));
 
 io.on('connection', (socket) => {
 
-    // Mensajes del main
+    // Recibe el mensaje de inicialización del main y une el socket a la nueva habitación
     socket.on('init main message', () => {
-        // Crear habitacion y Unir socket a habitación
+        // Crear habitacion y unir socket
         // socket.join(socket.id); // TODO: Recuperar
         socket.join('hola');
-        // console.log('user joined room:', socket.id);
-        console.log('user joined room:', 'hola');
+        // console.log('user joined room:', socket.id); // TODO: Recuperar
         // Enviar código de habitación al main
         socket.emit('init main message', socket.id);
     });
 
+    // Recibe las notas del main y las envía a la habitación
     socket.on('main message', (msg) => {
-        // Recibir info del video
-        // Enviar info del video a la habitación
-        // socket.to(socket.id).emit('room message', {text: msg.text}); // TODO: Recuperar
+        // socket.to(socket.id).emit('room message', {text: msg.keys}); // TODO: Recuperar
         socket.to('hola').emit('room message', {text: msg.keys});
     });
 
-    // Mensajes del mobiles
-    socket.on('init mobile message', (msg) => {
+    // Recibe el mensaje de inicialización del clone y une el socket a la habitación
+    socket.on('init clone message', (msg) => {
         // Unir a habitación
         socket.join(msg.roomId);
-        // Enviar código de habitación al mobile
-        socket.emit('init mobile message', {text: 'Habitación ' + msg.roomId});
     });
 
-    socket.on('mobile message', (msg) => {
-        // Recibir acción sobre el video
-        // Enviar acción a la habitación
-    });
-
-    // Mensajes del desktop
-    socket.on('init desktop message', (msg) => {
-        // Unir a habitación
-        socket.join(msg.roomId);
-        // Enviar código de habitación al mobile
-        socket.emit('init desktop message', msg.roomId);
-    });
-
-    socket.on('desktop message', (msg) => {
+    // Recibe la acción sobre el video del clone y la envía a la habitación
+    socket.on('clone controller message', (msg) => {
         // Recibir acción sobre el video
         // Enviar acción a la habitación
     });
