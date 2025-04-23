@@ -67,12 +67,18 @@ class PianoComponent extends HTMLElement {
             #piano {
               position: relative;
               margin: 0 auto;
-              width: 100%; /* Swapped width and height */
-              height: 100%; /* Full height */
+              width: 100%;
+              height: 100%;
               max-height: 700px; /* Adjusted max height */
               display: flex;
               flex-direction: column; /* Stack keys vertically */
               border: 2px solid black;
+            }
+
+            @media (orientation: landscape) {
+              #piano {
+                flex-direction: row; /* Stack keys horizontally in landscape mode */
+              }
             }
 
             .white-key {
@@ -82,6 +88,13 @@ class PianoComponent extends HTMLElement {
               position: relative;
               width: 100%; /* Full width for vertical layout */
               height: auto; /* Adjust height dynamically */
+            }
+
+            @media (orientation: landscape) {
+              .white-key {
+                height: 100%; /* Full height for landscape mode */
+                width: auto; /* Adjust width dynamically */
+              }
             }
 
             .black-key {
@@ -94,6 +107,14 @@ class PianoComponent extends HTMLElement {
               z-index: 100;
             }
 
+            @media (orientation: landscape) {
+              .black-key {
+                width: 8.5%; /* Adjusted width for landscape mode */
+                height: 60%; /* Adjusted height for black keys */
+                left: 40%; /* Center black keys horizontally in landscape mode */
+              }
+            }
+
             .highlight {
               background: lightblue !important;
             }
@@ -104,6 +125,15 @@ class PianoComponent extends HTMLElement {
             #F\\# { top: 52.5%; left: 40%; }
             #G\\# { top: 67%; left: 40%; }
             #A\\# { top: 81.5%; left: 40%; }
+
+            @media (orientation: landscape) {
+              /* Adjust positions for black keys in landscape mode */
+              #C\\# { left: 9.5%; top: 0; }
+              #D\\# { left: 24%; top: 0; }
+              #F\\# { left: 52.5%; top: 0; }
+              #G\\# { left: 67%; top: 0; }
+              #A\\# { left: 81.5%; top: 0; }
+            }
           ` 
         : 
         // Visualización de escritorio
