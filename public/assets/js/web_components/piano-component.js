@@ -253,29 +253,34 @@ class PianoComponent extends HTMLElement {
             <div class="qr_code_container ${this._showingPiano ? "hidden" : ""}">
               <div id="qrcode"></div>
               <!-- TODO: Descomentar para producción -->
-              <!-- <a class="link" href="https://gdie2503.ltim.uib.es/mobile.html?roomId=${this.roomCode}" target="_blank"> Abrir en el navegador</a> -->
-              <a class="link" href="http://localhost/mobile.html?roomId=hola" target="_blank">
+              <a class="link" href="https://gdie2503.ltim.uib.es/mobile.html?roomId=${this.roomCode}" target="_blank"> 
                 Abrir en el navegador
                 <img src="assets/media/img/icons/external-link.svg" />
               </a>
-            </div>
+              <!-- TODO: Descomentar para desarrollo -->
+              <!-- <a class="link" href="http://localhost/mobile.html?roomId=hola" target="_blank">
+                Abrir en el navegador
+                <img src="assets/media/img/icons/external-link.svg" />
+              </a>
+            </div> -->
           ` : ``}
         </div>
       `;
 
       if (this.roomCode && this.window !== "mobile") {
         // TODO: Descomentar para producción
-        // new QRCode(this.shadowRoot.getElementById("qrcode"), {
-        //   text: "https://gdie2503.ltim.uib.es/mobile.html?roomId=" + this.roomCode,
-        //   width: 128,
-        //   height: 128
-        // });
-
         new QRCode(this.shadowRoot.getElementById("qrcode"), {
-          text: "http://localhost/mobile.html?roomId=hola" /* + this.roomCode*/ ,
+          text: "https://gdie2503.ltim.uib.es/mobile.html?roomId=" + this.roomCode,
           width: 128,
           height: 128
         });
+
+        // TODO: Descomentar para dearrollo
+        // new QRCode(this.shadowRoot.getElementById("qrcode"), {
+        //   text: "http://localhost/mobile.html?roomId=hola" /* + this.roomCode*/ ,
+        //   width: 128,
+        //   height: 128
+        // });
 
         const toggleButtonPiano = this.shadowRoot.getElementById('toggleButtonPiano');
 

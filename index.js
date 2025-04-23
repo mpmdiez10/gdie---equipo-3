@@ -18,17 +18,17 @@ io.on('connection', (socket) => {
     // Recibe el mensaje de inicialización del main y une el socket a la nueva habitación
     socket.on('init main message', () => {
         // Crear habitacion y unir socket
-        // socket.join(socket.id); // TODO: Recuperar
-        socket.join('hola');
-        // console.log('user joined room:', socket.id); // TODO: Recuperar
+        socket.join(socket.id); // TODO: Descomentar para producción
+        console.log('user joined room:', socket.id); // TODO: Descomentar para producción
+        // socket.join('hola'); // TODO: Descomentar para desarrollo
         // Enviar código de habitación al main
         socket.emit('init main message', socket.id);
     });
 
     // Recibe las notas del main y las envía a la habitación
     socket.on('main message', (msg) => {
-        // socket.to(socket.id).emit('room message', {text: msg.keys}); // TODO: Recuperar
-        socket.to('hola').emit('room message', {text: msg.keys});
+        socket.to(socket.id).emit('room message', {text: msg.keys}); // TODO: Descomentar para producción
+        // socket.to('hola').emit('room message', {text: msg.keys}); // TODO: Descomentar para desarrollo
     });
 
     // Recibe el mensaje de inicialización del clone y une el socket a la habitación
