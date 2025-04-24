@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
     socket.on('init clone message', (msg) => {
         // Unir a habitación
         socket.join(msg.roomId);
-        console.log('clone joined room:', msg.roomId); // TODO: Descomentar para producción
+        console.log('clone joined room:', msg.roomId);
     });
 
     // Recibe la acción sobre el video del clone y la envía a la habitación
