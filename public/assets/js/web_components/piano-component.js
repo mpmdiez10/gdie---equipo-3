@@ -253,12 +253,12 @@ class PianoComponent extends HTMLElement {
             <div class="qr_code_container ${this._showingPiano ? "hidden" : ""}">
               <div id="qrcode"></div>
               <!-- TODO: Descomentar para producción -->
-              <a class="link" href="https://gdie2503.ltim.uib.es/mobile.html?roomId=${this.roomCode}" target="_blank"> 
+              <a class="link" href="https://gdie2503.ltim.uib.es/desktop.html?roomId=${this.roomCode}" target="_blank"> 
                 Abrir en el navegador
                 <img src="assets/media/img/icons/external-link.svg" />
               </a>
               <!-- TODO: Descomentar para desarrollo -->
-              <!-- <a class="link" href="http://localhost/mobile.html?roomId=hola" target="_blank">
+              <!-- <a class="link" href="http://localhost/desktop.html?roomId=${this.roomCode}" target="_blank">
                 Abrir en el navegador
                 <img src="assets/media/img/icons/external-link.svg" />
               </a>
@@ -277,7 +277,7 @@ class PianoComponent extends HTMLElement {
 
         // TODO: Descomentar para dearrollo
         // new QRCode(this.shadowRoot.getElementById("qrcode"), {
-        //   text: "http://localhost/mobile.html?roomId=hola" /* + this.roomCode*/ ,
+        //   text: "http://localhost/mobile.html?roomId="+ this.roomCode,
         //   width: 128,
         //   height: 128
         // });
