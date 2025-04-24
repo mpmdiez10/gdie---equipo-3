@@ -19,7 +19,7 @@ io.on('connection', (socket) => {
     socket.on('init main message', () => {
         // Crear habitacion y unir socket
         socket.join(socket.id); // TODO: Descomentar para producción
-        console.log('user joined room:', socket.id); // TODO: Descomentar para producción
+        console.log('main joined room:', socket.id); // TODO: Descomentar para producción
         // socket.join('hola'); // TODO: Descomentar para desarrollo
         // Enviar código de habitación al main
         socket.emit('init main message', socket.id);
@@ -35,6 +35,7 @@ io.on('connection', (socket) => {
     socket.on('init clone message', (msg) => {
         // Unir a habitación
         socket.join(msg.roomId);
+        console.log('clone joined room:', msg.roomId); // TODO: Descomentar para producción
     });
 
     // Recibe la acción sobre el video del clone y la envía a la habitación
