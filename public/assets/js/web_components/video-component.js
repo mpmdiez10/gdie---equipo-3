@@ -15,11 +15,15 @@ class VideoComponent extends HTMLElement {
         this._subjectRecommendationsPromise = new Promise(resolve => {
             this._resolveSubjectRecommendations = resolve;
         });
+        this._socketPromise = new Promise(resolve => {
+            this._resolveSocket = resolve;
+        });
     }
 
     connectedCallback() {
         this.render();
         this.subscribeToEvents();
+        this.initSocketDataTransfer();
     }
 
     set subjectPiano(value) {
@@ -35,6 +39,11 @@ class VideoComponent extends HTMLElement {
     set subjectRecommendations(value) {
         this._subjectRecommendations = value;
         this._resolveSubjectRecommendations(value);
+    }
+
+    set socket(value) {
+        this._socket = value;
+        this._resolveSocket(value);
     }
 
     static get observedAttributes() {
@@ -67,6 +76,19 @@ class VideoComponent extends HTMLElement {
             if (event.type === 'recommendationsFileLoaded') {
                 this.recommendations = event.data;
             }
+        });
+    }
+
+    async initSocketDataTransfer() {
+        console.log('socketDataTransfer');
+        const socket = await this._socketPromise;
+
+        // Indica que se inicaliza el compartir información de las teclas
+        socket.emit('init main message');
+
+        // Recibir el valor de la sala
+        socket.on('init main message', (roomId) => {
+            document.querySelector('piano-component').setAttribute('roomCode', roomId);
         });
     }
 
@@ -137,7 +159,14 @@ class VideoComponent extends HTMLElement {
             keysTrack.mode = 'hidden';
             keysTrack.addEventListener('cuechange', () => {
                 const data = JSON.parse(keysTrack.activeCues[0].text);
-                if (data) this.updateKeyNotes(data);
+                if (data) {
+                    // Actualizar las notas de la canción en el teclado
+                    this.updateKeyNotes(data);
+                    // Enviar las notas a través del socket
+                    this._socket.emit('main message', {
+                        keys: data.keys
+                    });
+                }
             });
         }
         if (recommendationsTrack) {
@@ -153,6 +182,9 @@ class VideoComponent extends HTMLElement {
                 this.song_playing = button.getAttribute('data-song');
                 this.setAttribute('song', this.song_playing);
                 this.updateKeyNotes({ keys: [] });
+                this._socket.emit('main message', {
+                    keys: ''
+                });
                 this.updateSheetNotes({ compasses: [] });
                 this.updateRecommendations({ song_recommendations: [], song_info: '' });
                 this.render();
