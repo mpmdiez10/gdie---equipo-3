@@ -113,19 +113,19 @@
       <!-- End Sidebar -->
 
       <div class="main-panel">
-        <div class="container">
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <div class="card card-round">
-                        <div class="card-header">
-                            <div class="card-title">Teclado de Piano</div>
-                        </div>
-                        <div class="card-body">
-                            <piano-component notes=""></piano-component>
-                        </div>
-                    </div>
+        <div class="container mt-5">
+          <div class="row mt-5 justify-content-center">
+              <div class="col-md-6">
+                <div class="card card-round">
+                  <div class="card-header">
+                      <div class="card-title">Teclado de Piano</div>
+                  </div>
+                  <div class="card-body">
+                      <piano-component notes=""></piano-component>
+                  </div>
                 </div>
-            </div>
+              </div>
+          </div>
         </div>
     
         <!-- Footer -->
@@ -149,8 +149,7 @@
     <!-- Kaiadmin JS -->
     <script src="assets/js/kaiadmin.min.js"></script>
 
-    <script>
-      const socket = io();
-    </script>
+    <!-- Socket management file -->
+    <script src="assets/js/clone-socket.js"></script>
   </body>
 </html>
