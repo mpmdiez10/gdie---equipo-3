@@ -1,7 +1,7 @@
 [ ] Arreglar en recommendations-component.js que si el título es muy largo, pone las recomendaciones en dos filas
 
 [x] Crear mobile.html
-[ ] Arreglar desktop.html
+[x] Arreglar desktop.html
 [x] Añadir sockets de tipo móvil y tipo desktop
 [x] Añadir funcionalidad QR
 
