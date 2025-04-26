@@ -18,6 +18,9 @@ class VideoComponent extends HTMLElement {
         this._subjectRecommendationsPromise = new Promise(resolve => {
             this._resolveSubjectRecommendations = resolve;
         });
+        this._socketPromise = new Promise(resolve => {
+          this._resolveSocket = resolve;
+        });
 
         // Pipeline de traducción (se carga al inicio)
         this._translatorPromise = pipeline('translation', 'Xenova/opus-mt-en-es');
