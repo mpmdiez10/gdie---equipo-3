@@ -6,19 +6,18 @@ class VideoComponent extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
 
-    // --- Datos de estado original ---
+    // --- Estado ---
     this.cues = [];
     this.sheetCues = [];
     this.song_playing = 'imagine';
     this.songs = ['imagine', 'scientist'];
 
-    // Promesas para comunicar con los demás componentes
+    // Promesas para RxJS
     this._subjectPianoPromise = new Promise(res => this._resolveSubjectPiano = res);
     this._subjectSheetsPromise = new Promise(res => this._resolveSubjectSheets = res);
     this._subjectRecommendationsPromise = new Promise(res => this._resolveSubjectRecommendations = res);
 
-    // --- Preparación pipeline de traducción ---
-    // Se carga al construir, pero no se usa hasta pulsar el botón
+    // Pipeline de traducción (se carga al inicio)
     this._translatorPromise = pipeline('translation', 'Xenova/opus-mt-en-es');
   }
 
@@ -57,7 +56,7 @@ class VideoComponent extends HTMLElement {
     subjectPiano.subscribe(event => {
       if (event.type === 'keysFileLoaded') {
         this.cues = event.data;
-      }
+      }    
     });
 
     const subjectSheets = await this._subjectSheetsPromise;
@@ -75,7 +74,7 @@ class VideoComponent extends HTMLElement {
     });
   }
 
-  // Ahora renderiza **sin** traducir automáticamente
+  // Render sin traducción automática
   async render() {
     const song = this.song_playing;
     const shadow = this.shadowRoot;
@@ -114,12 +113,12 @@ class VideoComponent extends HTMLElement {
         <source src="assets/media/video/${song}/720.mp4" type="video/mp4" media="(min-width: 720px)">
         <source src="assets/media/video/${song}/480.mp4" type="video/mp4">
 
-        <!-- Metadata tracks originales -->
+        <!-- Metadata -->
         <track id="sheetsTrack" kind="metadata" label="Sheets" src="assets/vtt/${song}/sheets.vtt">
         <track id="keysTrack" kind="metadata" label="Keys" src="assets/vtt/${song}/keys.vtt">
         <track id="recommendationsTrack" kind="metadata" label="Recommendations" src="assets/vtt/${song}/recommendations.vtt">
 
-        <!-- Subtítulos inglés -->
+        <!-- Subtítulos Inglés -->
         <track src="assets/vtt/${song}/subtitles_en.vtt" kind="subtitles" srclang="en" label="Inglés" default>
       </video>
       <div class="songs_buttons_list">
@@ -170,7 +169,7 @@ class VideoComponent extends HTMLElement {
     });
   }
 
-  // Helper: traduce línea a línea, mantiene timestamps y numeración
+  // Traduce línea a línea (mantiene tiempos y numeración)
   async _translateVTT(vttText, translator) {
     const lines = vttText.split('\n');
     const out   = [];
@@ -186,35 +185,46 @@ class VideoComponent extends HTMLElement {
     return out.join('\n');
   }
 
-  // Invoca la traducción al hacer click
+  // --- Nuevo: traduce y selecciona solo la pista en español ---
   async translateSubtitles() {
     try {
       const translator = await this._translatorPromise;
       const song = this.song_playing;
+      // 1. Obtener y traducir VTT
       const vttEnText = await fetch(`assets/vtt/${song}/subtitles_en.vtt`).then(r => r.text());
       const vttEsText = await this._translateVTT(vttEnText, translator);
 
+      // 2. Crear blob y URL
       const blob = new Blob([vttEsText], { type: 'text/vtt' });
       const urlEs = URL.createObjectURL(blob);
 
+      // 3. Insertar o actualizar pista ES
       const videoEl = this.shadowRoot.querySelector('video');
-      let esTrack = this.shadowRoot.querySelector('track[srclang="es"]');
-      if (esTrack) {
-        esTrack.src = urlEs;
+      let esTrackEl = this.shadowRoot.querySelector('track[srclang="es"]');
+      if (esTrackEl) {
+        esTrackEl.src = urlEs;
       } else {
-        esTrack = document.createElement('track');
-        esTrack.kind    = 'subtitles';
-        esTrack.srclang = 'es';
-        esTrack.label   = 'Español';
-        esTrack.src     = urlEs;
-        videoEl.appendChild(esTrack);
+        esTrackEl = document.createElement('track');
+        esTrackEl.kind    = 'subtitles';
+        esTrackEl.srclang = 'es';
+        esTrackEl.label   = 'Español';
+        esTrackEl.src     = urlEs;
+        videoEl.appendChild(esTrackEl);
       }
+
+      // 4. Activar solo ES, desactivar INGLÉS
+      Array.from(videoEl.querySelectorAll('track[kind="subtitles"]')).forEach(t => {
+        const tt = t.track;
+        if (t.srclang === 'es') tt.mode = 'showing';
+        else                    tt.mode = 'disabled';
+      });
+
     } catch (err) {
       console.error('Error traduciendo subtítulos:', err);
     }
   }
 
-  // Métodos de envío de datos a los demás componentes
+  // Métodos de envío a otros componentes
   updateKeyNotes(data) {
     if (data && data.keys) {
       this._subjectPiano.next(data);
