@@ -124,6 +124,7 @@
                         </div>
                         <div class="card-body">
                             <video-component song="imagine"></video-component>
+                            <button id="translate-btn" class="btn btn-secondary mt-2">Traducir subtítulos</button>
                         </div>
                     </div>
                 </div>
@@ -191,6 +192,13 @@
 
     <script>
       const socket = io();
+      // Cuando se pulse el botón, llamamos al método del web component
+      document.getElementById('translate-btn').addEventListener('click', () => {
+        const vc = document.querySelector('video-component');
+        if (vc && typeof vc.translateSubtitles === 'function') {
+          vc.translateSubtitles();
+        }
+      });
     </script>
   </body>
 </html>
