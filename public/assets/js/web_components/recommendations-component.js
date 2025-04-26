@@ -35,6 +35,9 @@ class RecommendationsComponent extends HTMLElement {
                 margin-bottom: 10px;
                 padding: 10px;
                 border-radius: 5px;
+                word-wrap: break-word;
+                max-width: 50%; /* Adjust the width as needed */
+                text-align: center;
             }
             .recommendations_list {
                 display: flex;
