@@ -74,18 +74,48 @@ class VideoComponent extends HTMLElement {
     });
   }
 
-  // Render sin traducción automática
+  // Render sin traducción automática, ahora con overlay de carga
   async render() {
     const song = this.song_playing;
     const shadow = this.shadowRoot;
 
     shadow.innerHTML = `
       <style>
+        .video-container {
+          position: relative;
+          width: 100%;
+          height: 100%;
+        }
         video {
           border: 1px solid black;
-          height: 90%;
           width: 100%;
-          margin: 0 auto;
+          height: auto;
+          display: block;
+        }
+        .loading-overlay {
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          background: rgba(255, 255, 255, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          visibility: hidden;
+        }
+        .loading-overlay.show {
+          visibility: visible;
+        }
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        .spinner {
+          border: 8px solid #f3f3f3;
+          border-top: 8px solid #007bff;
+          border-radius: 50%;
+          width: 60px;
+          height: 60px;
+          animation: spin 1s linear infinite;
         }
         .songs_buttons_list {
           display: flex;
@@ -107,20 +137,25 @@ class VideoComponent extends HTMLElement {
           opacity: 1;
         }
       </style>
-      <video controls width="640" height="360">
-        <source src="assets/media/video/${song}/4k.mp4" type="video/mp4" media="(min-width: 2560px)">
-        <source src="assets/media/video/${song}/1080.mp4" type="video/mp4" media="(min-width: 1280px)">
-        <source src="assets/media/video/${song}/720.mp4" type="video/mp4" media="(min-width: 720px)">
-        <source src="assets/media/video/${song}/480.mp4" type="video/mp4">
+      <div class="video-container">
+        <video controls width="640" height="360">
+          <source src="assets/media/video/${song}/4k.mp4" type="video/mp4" media="(min-width: 2560px)">
+          <source src="assets/media/video/${song}/1080.mp4" type="video/mp4" media="(min-width: 1280px)">
+          <source src="assets/media/video/${song}/720.mp4" type="video/mp4" media="(min-width: 720px)">
+          <source src="assets/media/video/${song}/480.mp4" type="video/mp4">
 
-        <!-- Metadata -->
-        <track id="sheetsTrack" kind="metadata" label="Sheets" src="assets/vtt/${song}/sheets.vtt">
-        <track id="keysTrack" kind="metadata" label="Keys" src="assets/vtt/${song}/keys.vtt">
-        <track id="recommendationsTrack" kind="metadata" label="Recommendations" src="assets/vtt/${song}/recommendations.vtt">
+          <!-- Metadata -->
+          <track id="sheetsTrack" kind="metadata" label="Sheets" src="assets/vtt/${song}/sheets.vtt">
+          <track id="keysTrack" kind="metadata" label="Keys" src="assets/vtt/${song}/keys.vtt">
+          <track id="recommendationsTrack" kind="metadata" label="Recommendations" src="assets/vtt/${song}/recommendations.vtt">
 
-        <!-- Subtítulos Inglés -->
-        <track src="assets/vtt/${song}/subtitles_en.vtt" kind="subtitles" srclang="en" label="Inglés" default>
-      </video>
+          <!-- Subtítulos Inglés -->
+          <track src="assets/vtt/${song}/subtitles_en.vtt" kind="subtitles" srclang="en" label="Inglés" default>
+        </video>
+        <div class="loading-overlay">
+          <div class="spinner"></div>
+        </div>
+      </div>
       <div class="songs_buttons_list">
         ${this.songs.map(s => `
           <button class="song_button" data-song="${s}">${s}</button>
@@ -128,7 +163,7 @@ class VideoComponent extends HTMLElement {
       </div>
     `;
 
-    // 2. Listeners metadata y cambio de canción (igual que antes)
+    // Listeners metadata y cambio de canción (igual que antes)
     const tracks = shadow.querySelectorAll('track');
     const sheetsTrack = tracks[0].track;
     const keysTrack = tracks[1].track;
@@ -185,8 +220,12 @@ class VideoComponent extends HTMLElement {
     return out.join('\n');
   }
 
-  // --- Nuevo: traduce y selecciona solo la pista en español ---
+  // --- Nuevo: traduce y muestra overlay de carga ---
   async translateSubtitles() {
+    const shadow = this.shadowRoot;
+    const overlay = shadow.querySelector('.loading-overlay');
+    overlay.classList.add('show');
+
     try {
       const translator = await this._translatorPromise;
       const song = this.song_playing;
@@ -199,8 +238,8 @@ class VideoComponent extends HTMLElement {
       const urlEs = URL.createObjectURL(blob);
 
       // 3. Insertar o actualizar pista ES
-      const videoEl = this.shadowRoot.querySelector('video');
-      let esTrackEl = this.shadowRoot.querySelector('track[srclang="es"]');
+      const videoEl = shadow.querySelector('video');
+      let esTrackEl = shadow.querySelector('track[srclang="es"]');
       if (esTrackEl) {
         esTrackEl.src = urlEs;
       } else {
@@ -221,6 +260,8 @@ class VideoComponent extends HTMLElement {
 
     } catch (err) {
       console.error('Error traduciendo subtítulos:', err);
+    } finally {
+      overlay.classList.remove('show');
     }
   }
 
