@@ -46,12 +46,6 @@ io.on('connection', (socket) => {
         console.log('clone joined room:', socketRoomID);
     });
 
-    // Recibe la acción sobre el video del clone y la envía a la habitación
-    socket.on('clone controller message', (msg) => {
-        // Recibir acción sobre el video
-        // Enviar acción a la habitación
-    });
-
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
