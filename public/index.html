@@ -55,7 +55,7 @@
     <!-- Scripts webcomponents -->
     <script src="assets/js/event-bus.js" type="module"></script>
     <script src="assets/js/web_components/piano-component.js" defer></script>
-    <script src="assets/js/web_components/video-component.js" defer></script>
+    <script type="module" src="assets/js/web_components/video-component.js" defer></script>
     <script src="assets/js/web_components/sheet-component.js" defer></script>    
     <script src="assets/js/web_components/recommendations-component.js" defer></script>
 
@@ -126,6 +126,9 @@
                         </div>
                         <div class="card-body">
                             <video-component song="imagine"></video-component>
+                            <div class="d-flex justify-content-center">
+                              <button id="translate-btn" class="btn btn-secondary mt-2">Traducir subtítulos</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -190,5 +193,15 @@
 
     <!-- Kaiadmin JS -->
     <script src="assets/js/kaiadmin.min.js"></script>
+
+    <script>
+      // Cuando se pulse el botón, llamamos al método del web component
+      document.getElementById('translate-btn').addEventListener('click', () => {
+        const vc = document.querySelector('video-component');
+        if (vc && typeof vc.translateSubtitles === 'function') {
+          vc.translateSubtitles();
+        }
+      });
+    </script>
   </body>
 </html>
