@@ -17,7 +17,6 @@ class RecommendationsComponent extends HTMLElement {
         });
     }
 
-    // TODO: Revisar esto de aquí, tal vez haya que mejorar esta función
     addRecomendationsData(data) {
         this.render(data);
     }

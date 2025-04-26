@@ -2,28 +2,31 @@
 import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0';
 
 class VideoComponent extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
+    constructor() {
+        super();
+        this.attachShadow({ mode: "open" });
+        this.cues = [];
+        this.sheetCues = [];
+        this.song_playing = 'imagine';
+        this.songs = ['imagine', 'scientist'];
+        this._subjectPianoPromise = new Promise(resolve => {
+            this._resolveSubjectPiano = resolve;
+        });
+        this._subjectSheetsPromise = new Promise(resolve => {
+            this._resolveSubjectSheets = resolve;
+        });
+        this._subjectRecommendationsPromise = new Promise(resolve => {
+            this._resolveSubjectRecommendations = resolve;
+        });
 
-    // --- Estado ---
-    this.cues = [];
-    this.sheetCues = [];
-    this.song_playing = 'imagine';
-    this.songs = ['imagine', 'scientist'];
-
-    // Promesas para RxJS
-    this._subjectPianoPromise = new Promise(res => this._resolveSubjectPiano = res);
-    this._subjectSheetsPromise = new Promise(res => this._resolveSubjectSheets = res);
-    this._subjectRecommendationsPromise = new Promise(res => this._resolveSubjectRecommendations = res);
-
-    // Pipeline de traducción (se carga al inicio)
-    this._translatorPromise = pipeline('translation', 'Xenova/opus-mt-en-es');
-  }
+        // Pipeline de traducción (se carga al inicio)
+        this._translatorPromise = pipeline('translation', 'Xenova/opus-mt-en-es');
+    }
 
   connectedCallback() {
     this.render();
     this.subscribeToEvents();
+    this.initSocketDataTransfer();
   }
 
   set subjectPiano(value) {
@@ -40,6 +43,11 @@ class VideoComponent extends HTMLElement {
     this._subjectRecommendations = value;
     this._resolveSubjectRecommendations(value);
   }
+
+    set socket(value) {
+        this._socket = value;
+        this._resolveSocket(value);
+    }
 
   static get observedAttributes() {
     return ["song"];
@@ -73,6 +81,19 @@ class VideoComponent extends HTMLElement {
       }
     });
   }
+
+    async initSocketDataTransfer() {
+      console.log('socketDataTransfer');
+      const socket = await this._socketPromise;
+
+      // Indica que se inicaliza el compartir información de las teclas
+      socket.emit('init main message');
+
+      // Recibir el valor de la sala
+      socket.on('init main message', (roomId) => {
+          document.querySelector('piano-component').setAttribute('roomCode', roomId);
+      });
+    }
 
   // Render con overlay de carga y mensaje
   async render() {
@@ -192,7 +213,14 @@ class VideoComponent extends HTMLElement {
       keysTrack.mode = 'hidden';
       keysTrack.addEventListener('cuechange', () => {
         const data = JSON.parse(keysTrack.activeCues[0].text);
-        if (data) this.updateKeyNotes(data);
+        if (data) {
+          // Actualizar las notas de la canción en el teclado
+          this.updateKeyNotes(data);
+          // Enviar las notas a través del socket
+          this._socket.emit('main message', {
+              keys: data.keys
+          });
+      }
       });
     }
     if (recommendationsTrack) {
@@ -208,6 +236,9 @@ class VideoComponent extends HTMLElement {
         this.song_playing = btn.getAttribute('data-song');
         this.setAttribute('song', this.song_playing);
         this.updateKeyNotes({ keys: [] });
+        this._socket.emit('main message', {
+            keys: ''
+        });
         this.updateSheetNotes({ compasses: [] });
         this.updateRecommendations({ song_recommendations: [], song_info: '' });
         this.render();

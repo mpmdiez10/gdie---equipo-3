@@ -14,14 +14,44 @@ const io = new Server(server);
 app.use(express.static('public'));
 
 io.on('connection', (socket) => {
-    socket.id = `user_${Math.random().toString(36).substr(2, 9)}`;
-    console.log(`Assigned ID: ${socket.id}`);
 
-    console.log('a user connected');
-    socket.on('chat message', (msg) => {
-        console.log('message: ' + msg);
-        io.emit('chat message', msg);
+    let socketRoomID;
+
+    // Recibe el mensaje de inicialización del main y une el socket a la nueva habitación
+    socket.on('init main message', () => {
+        // Generar un ID único para la habitación usando la fecha y hora actual
+        // Quitar la fecha hace que no funcione
+        const timestamp = new Date().getTime();
+        socketRoomID = `${socket.id.toString()}-${timestamp}`;
+
+
+        // Crear habitacion y unir socket
+        socket.join(socketRoomID);
+        console.log('main joined room:', socketRoomID);
+        
+        // Enviar código de habitación al main
+        socket.emit('init main message', socketRoomID);
     });
+
+    // Recibe las notas del main y las envía a la habitación
+    socket.on('main message', (msg) => {
+        socket.to(socketRoomID).emit('room message', {text: msg.keys});
+    });
+
+    // Recibe el mensaje de inicialización del clone y une el socket a la habitación
+    socket.on('init clone message', (msg) => {
+        socketRoomID = msg.roomId;
+        // Unir a habitación
+        socket.join(socketRoomID);
+        console.log('clone joined room:', socketRoomID);
+    });
+
+    // Recibe la acción sobre el video del clone y la envía a la habitación
+    socket.on('clone controller message', (msg) => {
+        // Recibir acción sobre el video
+        // Enviar acción a la habitación
+    });
+
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
