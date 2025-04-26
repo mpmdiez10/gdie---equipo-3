@@ -74,7 +74,7 @@ class VideoComponent extends HTMLElement {
     });
   }
 
-  // Render sin traducción automática, ahora con overlay de carga
+  // Render con overlay de carga y mensaje
   async render() {
     const song = this.song_playing;
     const shadow = this.shadowRoot;
@@ -84,7 +84,7 @@ class VideoComponent extends HTMLElement {
         .video-container {
           position: relative;
           width: 100%;
-          height: 100%;
+          height: auto;
         }
         video {
           border: 1px solid black;
@@ -98,9 +98,11 @@ class VideoComponent extends HTMLElement {
           width: 100%; height: 100%;
           background: rgba(255, 255, 255, 0.8);
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
           visibility: hidden;
+          transition: visibility 0.2s;
         }
         .loading-overlay.show {
           visibility: visible;
@@ -116,6 +118,11 @@ class VideoComponent extends HTMLElement {
           width: 60px;
           height: 60px;
           animation: spin 1s linear infinite;
+        }
+        .message {
+          margin-top: 1rem;
+          font-size: 1.1rem;
+          color: #333;
         }
         .songs_buttons_list {
           display: flex;
@@ -134,9 +141,9 @@ class VideoComponent extends HTMLElement {
           font-weight: bold;
           border: none;
           border-radius: 3px;
-          opacity: 1;
         }
       </style>
+
       <div class="video-container">
         <video controls width="640" height="360">
           <source src="assets/media/video/${song}/4k.mp4" type="video/mp4" media="(min-width: 2560px)">
@@ -152,10 +159,13 @@ class VideoComponent extends HTMLElement {
           <!-- Subtítulos Inglés -->
           <track src="assets/vtt/${song}/subtitles_en.vtt" kind="subtitles" srclang="en" label="Inglés" default>
         </video>
+
         <div class="loading-overlay">
           <div class="spinner"></div>
+          <div class="message"></div>
         </div>
       </div>
+
       <div class="songs_buttons_list">
         ${this.songs.map(s => `
           <button class="song_button" data-song="${s}">${s}</button>
@@ -163,7 +173,8 @@ class VideoComponent extends HTMLElement {
       </div>
     `;
 
-    // Listeners metadata y cambio de canción (igual que antes)
+    // Igual que antes: listeners de metadata y cambio de canción…
+
     const tracks = shadow.querySelectorAll('track');
     const sheetsTrack = tracks[0].track;
     const keysTrack = tracks[1].track;
@@ -192,9 +203,9 @@ class VideoComponent extends HTMLElement {
       });
     }
 
-    buttons.forEach(button => {
-      button.addEventListener('click', () => {
-        this.song_playing = button.getAttribute('data-song');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.song_playing = btn.getAttribute('data-song');
         this.setAttribute('song', this.song_playing);
         this.updateKeyNotes({ keys: [] });
         this.updateSheetNotes({ compasses: [] });
@@ -204,7 +215,7 @@ class VideoComponent extends HTMLElement {
     });
   }
 
-  // Traduce línea a línea (mantiene tiempos y numeración)
+  // Traduce línea a línea
   async _translateVTT(vttText, translator) {
     const lines = vttText.split('\n');
     const out   = [];
@@ -220,26 +231,31 @@ class VideoComponent extends HTMLElement {
     return out.join('\n');
   }
 
-  // --- Nuevo: traduce y muestra overlay de carga ---
+  // Traduce y maneja mensajes
   async translateSubtitles() {
-    const shadow = this.shadowRoot;
+    const shadow  = this.shadowRoot;
     const overlay = shadow.querySelector('.loading-overlay');
+    const msg     = overlay.querySelector('.message');
+
+    // 1) Mostrar texto de “Traduciendo…”
+    msg.textContent = 'Traduciendo subtítulos…';
     overlay.classList.add('show');
 
     try {
       const translator = await this._translatorPromise;
-      const song = this.song_playing;
-      // 1. Obtener y traducir VTT
-      const vttEnText = await fetch(`assets/vtt/${song}/subtitles_en.vtt`).then(r => r.text());
-      const vttEsText = await this._translateVTT(vttEnText, translator);
+      const song       = this.song_playing;
 
-      // 2. Crear blob y URL
-      const blob = new Blob([vttEsText], { type: 'text/vtt' });
+      // 2) Obtener y traducir VTT
+      const vttEnText  = await fetch(`assets/vtt/${song}/subtitles_en.vtt`).then(r => r.text());
+      const vttEsText  = await this._translateVTT(vttEnText, translator);
+
+      // 3) Crear blob y URL
+      const blob  = new Blob([vttEsText], { type: 'text/vtt' });
       const urlEs = URL.createObjectURL(blob);
 
-      // 3. Insertar o actualizar pista ES
-      const videoEl = shadow.querySelector('video');
-      let esTrackEl = shadow.querySelector('track[srclang="es"]');
+      // 4) Insertar o actualizar pista ES
+      const videoEl   = shadow.querySelector('video');
+      let esTrackEl   = shadow.querySelector('track[srclang="es"]');
       if (esTrackEl) {
         esTrackEl.src = urlEs;
       } else {
@@ -251,30 +267,30 @@ class VideoComponent extends HTMLElement {
         videoEl.appendChild(esTrackEl);
       }
 
-      // 4. Activar solo ES, desactivar INGLÉS
+      // 5) Activar sólo ES
       Array.from(videoEl.querySelectorAll('track[kind="subtitles"]')).forEach(t => {
-        const tt = t.track;
-        if (t.srclang === 'es') tt.mode = 'showing';
-        else                    tt.mode = 'disabled';
+        t.track.mode = (t.srclang === 'es') ? 'showing' : 'disabled';
       });
+
+      // 6) Cambiar texto a “Traducido” y esperar un momento
+      msg.textContent = 'Traducido';
+      await new Promise(res => setTimeout(res, 1200));
 
     } catch (err) {
       console.error('Error traduciendo subtítulos:', err);
+      msg.textContent = 'Error al traducir';
+      await new Promise(res => setTimeout(res, 1200));
     } finally {
       overlay.classList.remove('show');
     }
   }
 
-  // Métodos de envío a otros componentes
+  // Métodos RxJS…
   updateKeyNotes(data) {
-    if (data && data.keys) {
-      this._subjectPiano.next(data);
-    }
+    if (data && data.keys) this._subjectPiano.next(data);
   }
   updateSheetNotes(data) {
-    if (data && data.compasses) {
-      this._subjectSheets.next(data);
-    }
+    if (data && data.compasses) this._subjectSheets.next(data);
   }
   updateRecommendations(data) {
     if (data && data.song_recommendations?.length > 0) {
