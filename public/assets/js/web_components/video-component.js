@@ -1,4 +1,3 @@
-// assets/js/web_components/video-component.js
 import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0';
 
 class VideoComponent extends HTMLElement {
@@ -47,10 +46,10 @@ class VideoComponent extends HTMLElement {
     this._resolveSubjectRecommendations(value);
   }
 
-    set socket(value) {
-        this._socket = value;
-        this._resolveSocket(value);
-    }
+  set socket(value) {
+      this._socket = value;
+      this._resolveSocket(value);
+  }
 
   static get observedAttributes() {
     return ["song"];
@@ -85,18 +84,64 @@ class VideoComponent extends HTMLElement {
     });
   }
 
-    async initSocketDataTransfer() {
-      console.log('socketDataTransfer');
-      const socket = await this._socketPromise;
+  async initSocketDataTransfer() {
+    console.log('socketDataTransfer');
+    const socket = await this._socketPromise;
 
-      // Indica que se inicaliza el compartir información de las teclas
-      socket.emit('init main message');
+    // Indica que se inicaliza el compartir información de las teclas
+    socket.emit('init main message');
 
-      // Recibir el valor de la sala
-      socket.on('init main message', (roomId) => {
-          document.querySelector('piano-component').setAttribute('roomCode', roomId);
-      });
+    // Recibir el valor de la sala
+    socket.on('init main message', (roomId) => {
+        document.querySelector('piano-component').setAttribute('roomCode', roomId);
+    });
+
+    // Recoger los mensajes de control del video
+    socket.on('control message', (msg) => {
+      if (msg.type === 'play') {
+        this.playVideo();
+      } else if (msg.type === 'pause') {
+        this.pauseVideo();
+      } else if (msg.type === 'skip-backward') {
+        this.rewindVideo();
+      } else if (msg.type === 'skip-forward') {
+        this.forwardVideo();
+      }
+    });
+  }
+
+  // Funciones para controlar el video
+  // Pause the video
+  pauseVideo() {
+    const videoEl = this.shadowRoot.querySelector('video');
+    if (videoEl) {
+      videoEl.pause();
     }
+  }
+
+  // Play the video
+  playVideo() {
+    const videoEl = this.shadowRoot.querySelector('video');
+    if (videoEl) {
+      videoEl.play();
+    }
+  }
+
+  // Rewind the video by 10 seconds
+  rewindVideo() {
+    const videoEl = this.shadowRoot.querySelector('video');
+    if (videoEl) {
+      videoEl.currentTime = Math.max(0, videoEl.currentTime - 10);
+    }
+  }
+
+  // Forward the video by 10 seconds
+  forwardVideo() {
+    const videoEl = this.shadowRoot.querySelector('video');
+    if (videoEl) {
+      videoEl.currentTime = Math.min(videoEl.duration, videoEl.currentTime + 10);
+    }
+  }
 
   // Render con overlay de carga y mensaje
   async render() {
