@@ -243,7 +243,7 @@ class VideoComponent extends HTMLElement {
     `;
 
     // Igual que antes: listeners de metadata y cambio de canción…
-
+    const video = shadow.querySelector('video');
     const tracks = shadow.querySelectorAll('track');
     const sheetsTrack = tracks[0].track;
     const keysTrack = tracks[1].track;
@@ -291,6 +291,14 @@ class VideoComponent extends HTMLElement {
         this.updateRecommendations({ song_recommendations: [], song_info: '' });
         this.render();
       });
+    });
+
+    video.addEventListener('play', () => {
+      this._socket.emit('control message', { type: 'play' });
+    });
+  
+    video.addEventListener('pause', () => {
+      this._socket.emit('control message', { type: 'pause' });
     });
   }
 
