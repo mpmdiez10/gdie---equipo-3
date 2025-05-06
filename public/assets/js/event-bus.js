@@ -16,4 +16,5 @@ $(function() {
     const socket = io();
 
     $('video-component')[0].socket = socket;
+    $('sheet-component')[0].socket = socket;
 });
