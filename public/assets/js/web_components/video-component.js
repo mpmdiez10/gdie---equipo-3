@@ -253,8 +253,20 @@ class VideoComponent extends HTMLElement {
     if (sheetsTrack) {
       sheetsTrack.mode = 'hidden';
       sheetsTrack.addEventListener('cuechange', () => {
-        const data = JSON.parse(sheetsTrack.activeCues[0].text);
-        if (data) this.updateSheetNotes(data);
+        if (sheetsTrack.activeCues && sheetsTrack.activeCues.length > 0) {
+          const activeCue = sheetsTrack.activeCues[0];
+          if (activeCue) {
+            const data = JSON.parse(activeCue.text); // Parsear el texto del cue
+            if (data) {
+              // Añadir propiedades de tiempo al objeto data
+              data.startTime = activeCue.startTime;
+              data.endTime = activeCue.endTime;
+        
+              // Pasar el texto del cue de las teclas
+              this.updateSheetNotes(data);
+            }
+          }
+        }
       });
     }
     if (keysTrack) {
