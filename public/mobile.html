@@ -27,6 +27,7 @@
 
     <!-- Scripts webcomponents -->
     <script src="assets/js/web_components/piano-component.js" defer></script>
+    <script src="assets/js/web_components/controls-component.js"></script>
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -39,6 +40,7 @@
       <div class="main-panel">
         <div class="card card-round full-height">
           <div class="card-body full-height">
+            <controls-component style="position: absolute; z-index: 1000;"></controls-component>
             <piano-component notes="" window="mobile"></piano-component>
           </div>
         </div>
