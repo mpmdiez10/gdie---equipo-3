@@ -14,7 +14,6 @@ const io = new Server(server);
 app.use(express.static('public'));
 
 io.on('connection', (socket) => {
-
     let socketRoomID;
 
     // Recibe el mensaje de inicialización del main y une el socket a la nueva habitación
@@ -24,12 +23,9 @@ io.on('connection', (socket) => {
         const timestamp = new Date().getTime();
         socketRoomID = `${socket.id.toString()}-${timestamp}`;
 
-
         // Crear habitacion y unir socket
         socket.join(socketRoomID);
         console.log('main joined room:', socketRoomID);
-        
-        // Enviar código de habitación al main
         socket.emit('init main message', socketRoomID);
     });
 
