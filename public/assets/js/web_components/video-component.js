@@ -20,6 +20,8 @@ class VideoComponent extends HTMLElement {
         this._socketPromise = new Promise(resolve => {
           this._resolveSocket = resolve;
         });
+        this.video_mode = this.getAttribute('video-mode') || 'hls';
+        this._second = 0;
 
         // Pipeline de traducción (se carga al inicio)
         this._translatorPromise = pipeline('translation', 'Xenova/opus-mt-en-es');
@@ -52,11 +54,19 @@ class VideoComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["song"];
+    return ["song", "video-mode"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "song") {
+      this.second = 0;
+      this.render();
+    } else if (name === "video-mode") {
+      const video = this.shadowRoot.querySelector('video');
+      if (video) {
+        this.second = video.currentTime;
+      }
+      this.video_mode = newValue;
       this.render();
     }
   }
@@ -308,7 +318,7 @@ class VideoComponent extends HTMLElement {
       this._socket.emit('control message', { type: 'pause' });
     });
 
-    if (Hls.isSupported()) {
+    if (Hls.isSupported() && this.video_mode === 'hls') {
       let url;
       switch (song) {
         case 'imagine':
@@ -322,10 +332,24 @@ class VideoComponent extends HTMLElement {
       player.on(Hls.Events.MEDIA_ATTACHED, function () { /* ... */ });
       player.loadSource(url);
       player.attachMedia(video);
+
+      video.addEventListener('loadedmetadata', () => {
+        if (this.second > 0) {
+          video.currentTime = this.second;
+          video.play();
+        }
+      });
     } else {
       const url = `assets/media/video/${song}/manifest.mpd`;
       let player = dashjs.MediaPlayer().create();
-      player.initialize(video, url, true);
+      player.initialize(video, url, false);
+
+      video.addEventListener('loadedmetadata', () => {
+        if (this.second > 0) {
+          video.currentTime = this.second;
+          video.play();
+        }
+      });
     }
   }
 

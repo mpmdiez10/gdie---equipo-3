@@ -51,6 +51,8 @@
     </script>
     <!-- QRCode -->
     <script src="assets/js/plugin/davidshimjs-qrcodejs-04f46c6/qrcode.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="assets/css/bootstrap-toggle.min.css" rel="stylesheet">
 
     <!-- Import <scribe-music> -->
     <link rel="stylesheet" href="https://stephen.band/scribe/scribe-music/module.css" />
@@ -132,6 +134,7 @@
                             <video-component song="imagine"></video-component>
                             <div class="d-flex justify-content-center">
                               <button id="translate-btn" class="btn btn-secondary mt-2">Traducir subtítulos</button>
+                                <input type="checkbox" checked data-toggle="toggle" data-on="HLS" data-off="DASH" data-onstyle="primary" data-offstyle="primary" id="toggle">
                             </div>
                         </div>
                     </div>
@@ -191,6 +194,7 @@
     <script src="assets/js/core/jquery-3.7.1.min.js"></script>
     <script src="assets/js/core/popper.min.js"></script>
     <script src="assets/js/core/bootstrap.min.js"></script>
+    <script src="assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
 
     <!-- jQuery Scrollbar -->
     <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
@@ -206,6 +210,22 @@
           vc.translateSubtitles();
         }
       });
+
+      $(function() {
+        if (!Hls.isSupported()) {
+          $('#toggle')
+            .bootstrapToggle('off')
+            .bootstrapToggle('disable');
+        } else {
+          $('#toggle').change(function() {
+            if ($('#toggle').prop('checked')) {
+              $('video-component').attr('video-mode','hls');
+            } else {
+              $('video-component').attr('video-mode','dash');
+            }
+          })
+        }
+      })
     </script>
   </body>
 </html>
