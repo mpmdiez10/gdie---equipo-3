@@ -48,7 +48,7 @@ class ControlsComponent extends HTMLElement {
           width: 50px;
           height: 50px;
           border-radius: 50%;
-          background-color: blue;
+          background-color: #007bff;
           display: flex;
           align-items: center;
           justify-content: center;
