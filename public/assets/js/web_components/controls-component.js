@@ -1,4 +1,4 @@
-class ControllsCompornent extends HTMLElement {
+class ControlsComponent extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -190,4 +190,4 @@ class ControllsCompornent extends HTMLElement {
   }
 }
 
-customElements.define('controls-component', ControllsCompornent);
+customElements.define('controls-component', ControlsComponent);
