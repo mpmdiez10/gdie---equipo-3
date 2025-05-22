@@ -215,11 +215,6 @@ class VideoComponent extends HTMLElement {
 
       <div class="video-container">
         <video controls width="640" height="360">
-          <source src="assets/media/video/${song}/4k.mp4" type="video/mp4" media="(min-width: 2560px)">
-          <source src="assets/media/video/${song}/1080.mp4" type="video/mp4" media="(min-width: 1280px)">
-          <source src="assets/media/video/${song}/720.mp4" type="video/mp4" media="(min-width: 720px)">
-          <source src="assets/media/video/${song}/480.mp4" type="video/mp4">
-
           <!-- Metadata -->
           <track id="sheetsTrack" kind="metadata" label="Sheets" src="assets/vtt/${song}/sheets.vtt">
           <track id="keysTrack" kind="metadata" label="Keys" src="assets/vtt/${song}/keys.vtt">
@@ -312,6 +307,26 @@ class VideoComponent extends HTMLElement {
     video.addEventListener('pause', () => {
       this._socket.emit('control message', { type: 'pause' });
     });
+
+    if (Hls.isSupported()) {
+      let url;
+      switch (song) {
+        case 'imagine':
+          url = 'https://media.thetavideoapi.com/org_t7ekvfajzpisa2aks00rwhftq19n/srvacc_rf5azx4xj0txhtp21jx2vxe7f/video_uv88xnustt4th3h9tq7q54y26b/master.m3u8';
+          break;
+        case 'scientist':
+          url = 'https://media.thetavideoapi.com/org_t7ekvfajzpisa2aks00rwhftq19n/srvacc_rf5azx4xj0txhtp21jx2vxe7f/video_a28zp3khf7bu4u6izt9bti0vpc/master.m3u8';
+          break;
+      }
+      let player = new Hls();
+      player.on(Hls.Events.MEDIA_ATTACHED, function () { /* ... */ });
+      player.loadSource(url);
+      player.attachMedia(video);
+    } else {
+      const url = `assets/media/video/${song}/manifest.mpd`;
+      let player = dashjs.MediaPlayer().create();
+      player.initialize(video, url, true);
+    }
   }
 
   // Traduce línea a línea
