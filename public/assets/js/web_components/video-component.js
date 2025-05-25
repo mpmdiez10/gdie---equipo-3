@@ -1,4 +1,5 @@
 import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0';
+import { CustomControls } from './custom-controls.js';
 
 class VideoComponent extends HTMLElement {
     constructor() {
@@ -158,7 +159,7 @@ class VideoComponent extends HTMLElement {
     const song = this.song_playing;
     const shadow = this.shadowRoot;
 
-    shadow.innerHTML = `
+    shadow.innerHTML =/* html */ `
       <style>
         .video-container {
           position: relative;
@@ -224,7 +225,7 @@ class VideoComponent extends HTMLElement {
       </style>
 
       <div class="video-container">
-        <video controls width="640" height="360">
+        <video width="640" height="360" playsinline>
           <!-- Metadata -->
           <track id="sheetsTrack" kind="metadata" label="Sheets" src="assets/vtt/${song}/sheets.vtt">
           <track id="keysTrack" kind="metadata" label="Keys" src="assets/vtt/${song}/keys.vtt">
@@ -254,6 +255,63 @@ class VideoComponent extends HTMLElement {
     const keysTrack = tracks[1].track;
     const recommendationsTrack = tracks[2].track;
     const buttons = shadow.querySelectorAll('.song_button');
+    const custom = new CustomControls(video, shadow.querySelector('.video-container'));
+    video.addEventListener('qualitychange', (e) => {
+      let quality;
+
+      if (this.hlsPlayer && this.video_mode === 'hls') {
+        switch (e.detail.quality) {
+          case "NL":
+            quality = 3; // 2160p
+            break;
+          case "1080":
+            quality = 2; // 1080p
+            break;
+          case "720":
+            quality = 1; // 720p
+            break;
+          case "ML":
+            quality = 0; // 360p
+            break;
+        }
+
+        this.hlsPlayer.currentLevel = quality;
+
+        // Vaciar el buffer forzando recarga
+        this.hlsPlayer.stopLoad();
+        this.hlsPlayer.startLoad();
+      }
+
+      if (this.dashPlayer && this.video_mode === 'dash') {
+
+        switch (e.detail.quality) {
+          case "NL":
+            quality = 2; // 4k
+            break;
+          case "1080":
+            quality = 1; // 1080p
+            break;
+          case "720":
+            quality = 0; // 720p
+            break;
+          case "ML":
+            quality = 3; // 480p
+            break;
+        }
+
+        this.dashPlayer.updateSettings({
+          streaming: {
+            abr: {
+              autoSwitchBitrate: { video: false }
+            }
+          }
+        });
+        this.dashPlayer.setRepresentationForTypeByIndex('video', quality, true);
+
+        const currentTime = this.dashPlayer.time();
+        this.dashPlayer.seek(currentTime); // Reproduce desde el mismo punto
+      }
+    });
 
     if (sheetsTrack) {
       sheetsTrack.mode = 'hidden';
@@ -328,10 +386,10 @@ class VideoComponent extends HTMLElement {
           url = 'https://media.thetavideoapi.com/org_t7ekvfajzpisa2aks00rwhftq19n/srvacc_rf5azx4xj0txhtp21jx2vxe7f/video_a28zp3khf7bu4u6izt9bti0vpc/master.m3u8';
           break;
       }
-      let player = new Hls();
-      player.on(Hls.Events.MEDIA_ATTACHED, function () { /* ... */ });
-      player.loadSource(url);
-      player.attachMedia(video);
+      this.hlsPlayer = new Hls();
+      this.hlsPlayer.on(Hls.Events.MEDIA_ATTACHED, function () { /* ... */ });
+      this.hlsPlayer.loadSource(url);
+      this.hlsPlayer.attachMedia(video);
 
       video.addEventListener('loadedmetadata', () => {
         if (this.second > 0) {
@@ -341,8 +399,8 @@ class VideoComponent extends HTMLElement {
       });
     } else {
       const url = `assets/media/video/${song}/manifest.mpd`;
-      let player = dashjs.MediaPlayer().create();
-      player.initialize(video, url, false);
+      this.dashPlayer = dashjs.MediaPlayer().create();
+      this.dashPlayer.initialize(video, url, false);
 
       video.addEventListener('loadedmetadata', () => {
         if (this.second > 0) {
