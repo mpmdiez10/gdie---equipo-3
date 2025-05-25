@@ -1,4 +1,4 @@
-class ControllsCompornent extends HTMLElement {
+class ControlsComponent extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -48,7 +48,7 @@ class ControllsCompornent extends HTMLElement {
           width: 50px;
           height: 50px;
           border-radius: 50%;
-          background-color: blue;
+          background-color: #007bff;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -190,4 +190,4 @@ class ControllsCompornent extends HTMLElement {
   }
 }
 
-customElements.define('controls-component', ControllsCompornent);
+customElements.define('controls-component', ControlsComponent);

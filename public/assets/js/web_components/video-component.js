@@ -1,4 +1,5 @@
 import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0';
+import { CustomControls } from './custom-controls.js';
 
 class VideoComponent extends HTMLElement {
     constructor() {
@@ -20,6 +21,8 @@ class VideoComponent extends HTMLElement {
         this._socketPromise = new Promise(resolve => {
           this._resolveSocket = resolve;
         });
+        this.video_mode = this.getAttribute('video-mode') || 'hls';
+        this._second = 0;
 
         // Pipeline de traducción (se carga al inicio)
         this._translatorPromise = pipeline('translation', 'Xenova/opus-mt-en-es');
@@ -52,11 +55,19 @@ class VideoComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["song"];
+    return ["song", "video-mode"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "song") {
+      this.second = 0;
+      this.render();
+    } else if (name === "video-mode") {
+      const video = this.shadowRoot.querySelector('video');
+      if (video) {
+        this.second = video.currentTime;
+      }
+      this.video_mode = newValue;
       this.render();
     }
   }
@@ -148,7 +159,7 @@ class VideoComponent extends HTMLElement {
     const song = this.song_playing;
     const shadow = this.shadowRoot;
 
-    shadow.innerHTML = `
+    shadow.innerHTML =/* html */ `
       <style>
         .video-container {
           position: relative;
@@ -214,12 +225,7 @@ class VideoComponent extends HTMLElement {
       </style>
 
       <div class="video-container">
-        <video controls width="640" height="360">
-          <source src="assets/media/video/${song}/4k.mp4" type="video/mp4" media="(min-width: 2560px)">
-          <source src="assets/media/video/${song}/1080.mp4" type="video/mp4" media="(min-width: 1280px)">
-          <source src="assets/media/video/${song}/720.mp4" type="video/mp4" media="(min-width: 720px)">
-          <source src="assets/media/video/${song}/480.mp4" type="video/mp4">
-
+        <video width="640" height="360" playsinline>
           <!-- Metadata -->
           <track id="sheetsTrack" kind="metadata" label="Sheets" src="assets/vtt/${song}/sheets.vtt">
           <track id="keysTrack" kind="metadata" label="Keys" src="assets/vtt/${song}/keys.vtt">
@@ -249,6 +255,63 @@ class VideoComponent extends HTMLElement {
     const keysTrack = tracks[1].track;
     const recommendationsTrack = tracks[2].track;
     const buttons = shadow.querySelectorAll('.song_button');
+    const custom = new CustomControls(video, shadow.querySelector('.video-container'));
+    video.addEventListener('qualitychange', (e) => {
+      let quality;
+
+      if (this.hlsPlayer && this.video_mode === 'hls') {
+        switch (e.detail.quality) {
+          case "NL":
+            quality = 3; // 2160p
+            break;
+          case "1080":
+            quality = 2; // 1080p
+            break;
+          case "720":
+            quality = 1; // 720p
+            break;
+          case "ML":
+            quality = 0; // 360p
+            break;
+        }
+
+        this.hlsPlayer.currentLevel = quality;
+
+        // Vaciar el buffer forzando recarga
+        this.hlsPlayer.stopLoad();
+        this.hlsPlayer.startLoad();
+      }
+
+      if (this.dashPlayer && this.video_mode === 'dash') {
+
+        switch (e.detail.quality) {
+          case "NL":
+            quality = 2; // 4k
+            break;
+          case "1080":
+            quality = 1; // 1080p
+            break;
+          case "720":
+            quality = 0; // 720p
+            break;
+          case "ML":
+            quality = 3; // 480p
+            break;
+        }
+
+        this.dashPlayer.updateSettings({
+          streaming: {
+            abr: {
+              autoSwitchBitrate: { video: false }
+            }
+          }
+        });
+        this.dashPlayer.setRepresentationForTypeByIndex('video', quality, true);
+
+        const currentTime = this.dashPlayer.time();
+        this.dashPlayer.seek(currentTime); // Reproduce desde el mismo punto
+      }
+    });
 
     if (sheetsTrack) {
       sheetsTrack.mode = 'hidden';
@@ -312,6 +375,40 @@ class VideoComponent extends HTMLElement {
     video.addEventListener('pause', () => {
       this._socket.emit('control message', { type: 'pause' });
     });
+
+    if (Hls.isSupported() && this.video_mode === 'hls') {
+      let url;
+      switch (song) {
+        case 'imagine':
+          url = 'https://media.thetavideoapi.com/org_t7ekvfajzpisa2aks00rwhftq19n/srvacc_rf5azx4xj0txhtp21jx2vxe7f/video_uv88xnustt4th3h9tq7q54y26b/master.m3u8';
+          break;
+        case 'scientist':
+          url = 'https://media.thetavideoapi.com/org_t7ekvfajzpisa2aks00rwhftq19n/srvacc_rf5azx4xj0txhtp21jx2vxe7f/video_a28zp3khf7bu4u6izt9bti0vpc/master.m3u8';
+          break;
+      }
+      this.hlsPlayer = new Hls();
+      this.hlsPlayer.on(Hls.Events.MEDIA_ATTACHED, function () { /* ... */ });
+      this.hlsPlayer.loadSource(url);
+      this.hlsPlayer.attachMedia(video);
+
+      video.addEventListener('loadedmetadata', () => {
+        if (this.second > 0) {
+          video.currentTime = this.second;
+          video.play();
+        }
+      });
+    } else {
+      const url = `assets/media/video/${song}/manifest.mpd`;
+      this.dashPlayer = dashjs.MediaPlayer().create();
+      this.dashPlayer.initialize(video, url, false);
+
+      video.addEventListener('loadedmetadata', () => {
+        if (this.second > 0) {
+          video.currentTime = this.second;
+          video.play();
+        }
+      });
+    }
   }
 
   // Traduce línea a línea
