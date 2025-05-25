@@ -128,13 +128,15 @@
                 <div class="col-md-6">
                     <div class="card card-round">
                         <div class="card-header">
+                          <div class="d-flex justify-content-between">
                             <div class="card-title">Reproductor de Video</div>
+                            <input type="checkbox" checked data-toggle="toggle" data-on="HLS" data-off="DASH" data-onstyle="primary" data-offstyle="primary" id="toggle">
+                          </div>  
                         </div>
                         <div class="card-body">
                             <video-component song="imagine"></video-component>
                             <div class="d-flex justify-content-center">
                               <button id="translate-btn" class="btn btn-secondary mt-2">Traducir subtítulos</button>
-                                <input type="checkbox" checked data-toggle="toggle" data-on="HLS" data-off="DASH" data-onstyle="primary" data-offstyle="primary" id="toggle">
                             </div>
                         </div>
                     </div>
